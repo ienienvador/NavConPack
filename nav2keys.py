@@ -9,12 +9,11 @@ CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
 
 DEFAULT_CONFIG = {
     "mapping": {
-        "0x1000": "space", "0x2000": "c", "0x4000": "r", "0x8000": "2",
-        "0x0100": "q", "0x0200": "g", "0x0020": "tab", "0x0010": "esc",
-        "0x0040": "shift", "0x0080": "v",
+        "0x1000": "space", "0x2000": "c",
+        "0x0100": "q", "0x0040": "shift", "0x0010": "esc",
         "0x0001": "3", "0x0002": "4", "0x0004": "1", "0x0008": "f",
     },
-    "triggers": {"threshold": 80, "L2": "x", "R2": "e"},
+    "triggers": {"threshold": 80, "L2": "x"},
     "stick": {"deadzone": 7849, "up": "w", "down": "s", "left": "a", "right": "d"}
 }
 
@@ -23,6 +22,12 @@ def load_config():
         try:
             with open(CONFIG_PATH) as f:
                 cfg = json.load(f)
+            # Migration : supprimer les entrées obsolètes
+            obsolete_keys = {"0x4000", "0x8000", "0x0200", "0x0080", "0x0020"}
+            for key in obsolete_keys:
+                cfg.get("mapping", {}).pop(key, None)
+            cfg.get("triggers", {}).pop("R2", None)
+            # Compléter avec les défauts manquants
             for section in DEFAULT_CONFIG:
                 if section not in cfg:
                     cfg[section] = DEFAULT_CONFIG[section]
@@ -36,7 +41,6 @@ MAP = { int(k, 16): v for k, v in config["mapping"].items() }
 DZ = config["stick"]["deadzone"]
 TRIGGER_THRESHOLD = config["triggers"]["threshold"]
 L2_KEY = config["triggers"]["L2"]
-R2_KEY = config["triggers"]["R2"]
 WASD_KEYS = [config["stick"]["up"], config["stick"]["left"],
              config["stick"]["down"], config["stick"]["right"]]
 
@@ -62,16 +66,13 @@ if not xinput:
     xinput = ctypes.windll.xinput9_1_0
 
 BTN_NAMES = {
-    0x1000: 'A', 0x2000: 'B', 0x4000: 'X', 0x8000: 'Y',
-    0x0100: 'LB', 0x0200: 'RB', 0x0020: 'Back', 0x0010: 'Start',
-    0x0040: 'L3', 0x0080: 'R3',
-    0x0001: 'D-U', 0x0002: 'D-D', 0x0004: 'D-L', 0x0008: 'D-R',
+    0x1000: 'A', 0x2000: 'B', 0x0100: 'LB', 0x0010: 'Start',
+    0x0040: 'L3', 0x0001: 'D-U', 0x0002: 'D-D', 0x0004: 'D-L', 0x0008: 'D-R',
 }
 
 # ── State ─────────────────────────────────────────────────────────
 pressed = set()
 lt_pressed = False
-rt_pressed = False
 last_wasd = [False]*4
 
 def btn_change(mask, down):
@@ -93,26 +94,19 @@ def do_wasd(lx, ly):
     last_wasd = cur
 
 def do_triggers(lt, rt):
-    global lt_pressed, rt_pressed
+    global lt_pressed
     lt_down = lt > TRIGGER_THRESHOLD
-    rt_down = rt > TRIGGER_THRESHOLD
     
     if lt_down and not lt_pressed:
         lt_pressed = True; pydirectinput.keyDown(L2_KEY)
     elif not lt_down and lt_pressed:
         lt_pressed = False; pydirectinput.keyUp(L2_KEY)
-    
-    if rt_down and not rt_pressed:
-        rt_pressed = True; pydirectinput.keyDown(R2_KEY)
-    elif not rt_down and rt_pressed:
-        rt_pressed = False; pydirectinput.keyUp(R2_KEY)
 
 def release_all():
-    global lt_pressed, rt_pressed
+    global lt_pressed
     for m in list(pressed): btn_change(m, False)
     do_wasd(0, 0)
     if lt_pressed: lt_pressed = False; pydirectinput.keyUp(L2_KEY)
-    if rt_pressed: rt_pressed = False; pydirectinput.keyUp(R2_KEY)
 
 def get_connected_slot():
     state = XINPUT_STATE()
@@ -130,9 +124,7 @@ def print_status(g):
             if key: active.append(f'{name}->{key}')
     
     lt = g.bLeftTrigger
-    rt = g.bRightTrigger
     if lt > TRIGGER_THRESHOLD: active.append(f'L2->{L2_KEY}({lt})')
-    if rt > TRIGGER_THRESHOLD: active.append(f'R2->{R2_KEY}({rt})')
     
     lx, ly = g.sThumbLX, g.sThumbLY
     lx_norm = lx if abs(lx) > DZ else 0
@@ -150,7 +142,7 @@ def print_status(g):
 
 # ── Main ───────────────────────────────────────────────────────────
 def main():
-    print("NavCon -> Keyboard Mapper v3.1.0", flush=True)
+    print("NavCon -> Keyboard Mapper v3.2.0", flush=True)
     print("=" * 40, flush=True)
     
     slot = get_connected_slot()
@@ -166,10 +158,9 @@ def main():
     print("Mapping actif - Ctrl+C pour arreter", flush=True)
     print("-" * 40, flush=True)
     
-    global last_wasd, pressed, lt_pressed, rt_pressed
+    global last_wasd, pressed, lt_pressed
     last_btn = 0
     lt_pressed = False
-    rt_pressed = False
     reconnect_count = 0
     
     try:

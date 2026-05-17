@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.1.0 - Navigation Controller -> Clavier
+  NavCon Pack v3.2.0 - Navigation Controller -> Clavier
   Pack complet déployable
 ================================================================
 
@@ -74,30 +74,24 @@ Important :
   - Pour arrêter : Ctrl+C dans la console ou fermer la fenêtre
   - Si une touche reste bloquée : Ctrl+C pour tout relâcher
 
-MAPPING PAR DÉFAUT
-------------------
+MAPPING PAR DÉFAUT (Navigation Controller)
+------------------------------------------
   Bouton Nav        Touche    Action (exemple)
   ───────────────── ───────── ──────────────────────
   Stick Gauche      WASD      Déplacement
   L3 (clic stick)   Shift     Sprint
   Cross (X)         Espace    Saut
   Circle (O)        C         S'accroupir
-  Square ([])       R         Recharger
-  Triangle (A)      2         Arme secondaire
   L1                Q         Action rapide
-  R1                G         Grenade / Objet
   L2 (trigger)      X         Action alternative
-  R2 (trigger)      E         Interagir
-  Select            Tab       Scoreboard / Menu
-  Start             Échap     Pause
+  PS Button         Echap     Pause / Menu
   D-Pad Haut        3         Slot 3
   D-Pad Bas         4         Slot 4
   D-Pad Gauche      1         Slot 1
   D-Pad Droite      F         Interaction
-  R3 (clic stick)   V         Mêlée / Action
 
 Notes sur les triggers :
-  - L2 et R2 sont analogiques (pression progressive)
+  - L2 est analogique (pression progressive)
   - Le seuil de déclenchement est à 80/255 (30 %)
   - Appuyez à fond pour une réponse immédiate
   - Si le seuil ne vous convient pas, modifiez TRIGGER_THRESHOLD

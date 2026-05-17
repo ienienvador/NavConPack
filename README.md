@@ -1,8 +1,10 @@
-# NavCon Pack v3.1.0
+# NavCon Pack v3.2.0
 
 ## Navigation Controller → Clavier pour PC
 
 Solution complète pour utiliser un **Sony Navigation Controller** (PS Move) sur PC Windows comme clavier. Compatible avec tous les jeux — aucune détection de manette parasite.
+
+**Spécialisé Navigation Controller** : Cette version est optimisée exclusivement pour le Navigation Controller (demi-manette PS Move). Les boutons absents sur ce contrôleur (Square, Triangle, R1, R2, R3, Select) ont été retirés.
 
 ## Fonctionnement
 
@@ -21,12 +23,12 @@ Le jeu ne voit **que le clavier**, jamais la manette.
 5. Double-cliquer sur `launch_nav2keys.bat`
 6. Lancer le jeu
 
-## Configuration GUI (nouveau en v3.1.0)
+## Configuration GUI
 
 Lancer `configurator.bat` pour ouvrir l'interface de configuration graphique :
 
-- **Boutons** : Cliquer sur chaque bouton pour choisir sa touche dans un menu déroulant
-- **Triggers** : Ajuster le seuil de déclenchement (slider) et la touche associée
+- **Boutons** : Interface spécialisée Navigation Controller (côté gauche uniquement)
+- **Trigger L2** : Ajuster le seuil de déclenchement (slider) et la touche associée
 - **Stick** : Ajuster la deadzone et les touches WASD
 - **Presets** : Charger un profil préconfiguré (BF6, COD, ARC, The Division)
 - **Test** : Tester en temps réel avec le controller connecté (vraies touches envoyées)
@@ -41,19 +43,13 @@ La configuration est sauvegardée dans `config.json` et lue automatiquement par 
 | L3 | Shift | Sprint |
 | Cross (X) | Espace | Saut |
 | Circle (O) | C | S'accroupir |
-| Square ([]) | R | Recharger |
-| Triangle (A) | 2 | Arme secondaire |
 | L1 | Q | Action rapide |
-| R1 | G | Grenade / Objet |
 | L2 (trigger) | X | Action alternative |
-| R2 (trigger) | E | Interagir |
-| Select | Tab | Scoreboard / Menu |
-| Start | Échap | Pause |
+| PS Button | Échap | Pause / Menu |
 | D-Pad Haut | 3 | Slot 3 |
 | D-Pad Bas | 4 | Slot 4 |
 | D-Pad Gauche | 1 | Slot 1 |
 | D-Pad Droite | F | Interaction |
-| R3 | V | Mêlée / Action |
 
 ## Contenu
 
@@ -62,7 +58,7 @@ La configuration est sauvegardée dans `config.json` et lue automatiquement par 
 | `INSTALL.bat` | Installation complète (admin) |
 | `launch_nav2keys.bat` | Lancement quotidien |
 | `configurator.bat` | Interface de configuration GUI |
-| `nav2keys.py` | Script de mapping v3.1.0 |
+| `nav2keys.py` | Script de mapping v3.2.0 |
 | `configurator.py` | Interface GUI (Tkinter) |
 | `config.json` | Configuration utilisateur |
 | `presets/` | Profils préconfigurés (BF6, COD, ARC, Division) |

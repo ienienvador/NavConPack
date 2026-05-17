@@ -1,17 +1,12 @@
 {
   "name": "Call of Duty",
-  "description": "Mapping optimise pour Call of Duty",
+  "description": "Mapping optimise pour Navigation Controller sur COD",
   "mapping": {
     "0x1000": "space",
     "0x2000": "ctrl",
-    "0x4000": "r",
-    "0x8000": "3",
     "0x0100": "q",
-    "0x0200": "g",
-    "0x0020": "tab",
-    "0x0010": "esc",
     "0x0040": "shift",
-    "0x0080": "v",
+    "0x0010": "esc",
     "0x0001": "4",
     "0x0002": "z",
     "0x0004": "1",
@@ -19,8 +14,7 @@
   },
   "triggers": {
     "threshold": 50,
-    "L2": "alt",
-    "R2": "e"
+    "L2": "alt"
   },
   "stick": {
     "deadzone": 5000,

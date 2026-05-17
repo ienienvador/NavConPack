@@ -7,22 +7,32 @@ PRESETS_DIR = os.path.join(os.path.dirname(__file__), 'presets')
 
 DEFAULT_CONFIG = {
     "mapping": {
-        "0x1000": "space", "0x2000": "c", "0x4000": "r", "0x8000": "2",
-        "0x0100": "q", "0x0200": "g", "0x0020": "tab", "0x0010": "esc",
-        "0x0040": "shift", "0x0080": "v",
+        "0x1000": "space", "0x2000": "c",
+        "0x0100": "q", "0x0040": "shift", "0x0010": "esc",
         "0x0001": "3", "0x0002": "4", "0x0004": "1", "0x0008": "f",
     },
-    "triggers": {"threshold": 80, "L2": "x", "R2": "e"},
+    "triggers": {"threshold": 80, "L2": "x"},
     "stick": {"deadzone": 7849, "up": "w", "down": "s", "left": "a", "right": "d"}
 }
 
-BTN_LABELS = {
-    "0x1000": "Cross (X)", "0x2000": "Circle (O)", "0x4000": "Square ([])",
-    "0x8000": "Triangle (A)", "0x0100": "L1", "0x0200": "R1",
-    "0x0020": "Select", "0x0010": "Start", "0x0040": "L3", "0x0080": "R3",
-    "0x0001": "D-Pad Haut", "0x0002": "D-Pad Bas",
-    "0x0004": "D-Pad Gauche", "0x0008": "D-Pad Droite",
+BTN_GROUPS = {
+    "left": {
+        "label": "Cote Gauche (Navigation Controller)",
+        "buttons": {
+            "0x0001": "D-Pad Haut",
+            "0x0002": "D-Pad Bas",
+            "0x0004": "D-Pad Gauche",
+            "0x0008": "D-Pad Droite",
+            "0x1000": "Cross (X)",
+            "0x2000": "Circle (O)",
+            "0x0100": "L1",
+            "0x0040": "L3 (clic stick)",
+            "0x0010": "PS Button (Start)",
+        }
+    }
 }
+
+BTN_LABELS_FLAT = {k: v for group in BTN_GROUPS.values() for k, v in group["buttons"].items()}
 
 KEY_OPTIONS = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
@@ -53,7 +63,7 @@ class XINPUT_STATE(ctypes.Structure):
 class NavConConfigurator:
     def __init__(self, root):
         self.root = root
-        self.root.title("NavCon Configurator v3.1.0")
+        self.root.title("NavCon Configurator v3.2.0")
         self.root.geometry("850x700")
         self.root.resizable(False, False)
         
@@ -91,7 +101,7 @@ class NavConConfigurator:
         main_frame = ttk.Frame(self.root, padding=10)
         main_frame.pack(fill=tk.BOTH, expand=True)
         
-        title = ttk.Label(main_frame, text="NavCon Configurator v3.1.0",
+        title = ttk.Label(main_frame, text="NavCon Configurator v3.2.0",
                          font=('Segoe UI', 16, 'bold'))
         title.pack(pady=(0, 10))
         
@@ -110,8 +120,9 @@ class NavConConfigurator:
         frame = ttk.Frame(notebook, padding=10)
         notebook.add(frame, text="Boutons")
         
-        ttk.Label(frame, text="Cliquez sur un bouton pour modifier sa touche assignee",
-                 foreground='gray').pack(pady=(0, 10))
+        info_label = ttk.Label(frame, text="Spécialisé Navigation Controller — boutons côté droit non disponibles",
+                              foreground='darkred', font=('Segoe UI', 10, 'bold'))
+        info_label.pack(pady=(0, 10))
         
         canvas = tk.Canvas(frame, width=780, height=400)
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=canvas.yview)
@@ -124,20 +135,24 @@ class NavConConfigurator:
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
-        btn_keys = list(BTN_LABELS.keys())
-        for i in range(0, len(btn_keys), 2):
-            row_frame = ttk.Frame(scroll_frame)
-            row_frame.pack(fill=tk.X, pady=2)
+        for group_key, group_data in BTN_GROUPS.items():
+            group_frame = ttk.LabelFrame(scroll_frame, text=group_data["label"], padding=10)
+            group_frame.pack(fill=tk.X, pady=10, padx=5)
             
-            self._make_btn_row(row_frame, btn_keys[i], 0)
-            if i + 1 < len(btn_keys):
-                self._make_btn_row(row_frame, btn_keys[i+1], 1)
+            btn_keys = list(group_data["buttons"].keys())
+            for i in range(0, len(btn_keys), 2):
+                row_frame = ttk.Frame(group_frame)
+                row_frame.pack(fill=tk.X, pady=2)
+                
+                self._make_btn_row(row_frame, btn_keys[i], 0)
+                if i + 1 < len(btn_keys):
+                    self._make_btn_row(row_frame, btn_keys[i+1], 1)
     
     def _make_btn_row(self, parent, key, col):
         row = ttk.Frame(parent)
         row.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
         
-        ttk.Label(row, text=BTN_LABELS.get(key, key), width=18, anchor=tk.W).pack(side=tk.LEFT)
+        ttk.Label(row, text=BTN_LABELS_FLAT.get(key, key), width=20, anchor=tk.W).pack(side=tk.LEFT)
         
         var = tk.StringVar(value=self.config["mapping"].get(key, ""))
         combo = ttk.Combobox(row, textvariable=var, values=KEY_OPTIONS, width=12, state="readonly")
@@ -152,9 +167,9 @@ class NavConConfigurator:
     
     def build_triggers_tab(self, notebook):
         frame = ttk.Frame(notebook, padding=10)
-        notebook.add(frame, text="Triggers (L2/R2)")
+        notebook.add(frame, text="Trigger L2")
         
-        ttk.Label(frame, text="Seuil de declenchement des triggers analogiques",
+        ttk.Label(frame, text="Seuil de declenchement du trigger analogique L2",
                  font=('Segoe UI', 11, 'bold')).pack(anchor=tk.W, pady=(0, 10))
         
         thresh_frame = ttk.Frame(frame)
@@ -172,21 +187,20 @@ class NavConConfigurator:
         
         ttk.Separator(frame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=15)
         
-        ttk.Label(frame, text="Touches assignees aux triggers",
+        ttk.Label(frame, text="Touche assignee au trigger L2",
                  font=('Segoe UI', 11, 'bold')).pack(anchor=tk.W, pady=(0, 10))
         
-        for trigger_key, label in [("L2", "L2 (Trigger gauche)"), ("R2", "R2 (Trigger droit)")]:
-            row = ttk.Frame(frame)
-            row.pack(fill=tk.X, pady=5)
-            ttk.Label(row, text=label, width=22, anchor=tk.W).pack(side=tk.LEFT)
-            
-            var = tk.StringVar(value=self.config["triggers"].get(trigger_key, ""))
-            combo = ttk.Combobox(row, textvariable=var, values=KEY_OPTIONS, width=12, state="readonly")
-            combo.pack(side=tk.LEFT, padx=5)
-            
-            def on_change(v=var, k=trigger_key):
-                self.config["triggers"][k] = v.get()
-            var.trace_add("write", lambda *args: on_change())
+        row = ttk.Frame(frame)
+        row.pack(fill=tk.X, pady=5)
+        ttk.Label(row, text="L2 (Trigger gauche)", width=22, anchor=tk.W).pack(side=tk.LEFT)
+        
+        var = tk.StringVar(value=self.config["triggers"].get("L2", ""))
+        combo = ttk.Combobox(row, textvariable=var, values=KEY_OPTIONS, width=12, state="readonly")
+        combo.pack(side=tk.LEFT, padx=5)
+        
+        def on_change(v=var):
+            self.config["triggers"]["L2"] = v.get()
+        var.trace_add("write", lambda *args: on_change())
     
     def build_stick_tab(self, notebook):
         frame = ttk.Frame(notebook, padding=10)
@@ -320,12 +334,10 @@ class NavConConfigurator:
     def _test_loop(self):
         import pydirectinput
         last_buttons = 0
-        last_lt = last_rt = -1
+        last_lt = -1
         threshold = self.config["triggers"]["threshold"]
         l2_key = self.config["triggers"]["L2"]
-        r2_key = self.config["triggers"]["R2"]
         lt_active = False
-        rt_active = False
         
         while self.test_running:
             state = XINPUT_STATE()
@@ -337,10 +349,12 @@ class NavConConfigurator:
                     for bit in range(16):
                         m = 1 << bit
                         if changed & m:
-                            key = self.config["mapping"].get(hex(m), "?")
+                            hex_key = hex(m)
+                            key = self.config["mapping"].get(hex_key, "?")
+                            label = BTN_LABELS_FLAT.get(hex_key, hex_key)
                             state_str = "PRESSE" if (g.wButtons & m) else "RELACHE"
                             action = "keyDown" if state_str == "PRESSE" else "keyUp"
-                            line = f"  {BTN_LABELS.get(hex(m), hex(m))} -> {action}('{key}')\n"
+                            line = f"  {label} -> {action}('{key}')\n"
                             self.root.after(0, lambda l=line: self.test_output.insert(tk.END, l))
                             self.root.after(0, lambda: self.test_output.see(tk.END))
                             if state_str == "PRESSE":
@@ -366,22 +380,6 @@ class NavConConfigurator:
                         try: pydirectinput.keyUp(l2_key)
                         except: pass
                     last_lt = g.bLeftTrigger
-                
-                if g.bRightTrigger != last_rt:
-                    rt_down = g.bRightTrigger > threshold
-                    if rt_down and not rt_active:
-                        rt_active = True
-                        line = f"  R2 (trigger={g.bRightTrigger}) -> keyDown('{r2_key}')\n"
-                        self.root.after(0, lambda l=line: self.test_output.insert(tk.END, l))
-                        try: pydirectinput.keyDown(r2_key)
-                        except: pass
-                    elif not rt_down and rt_active:
-                        rt_active = False
-                        line = f"  R2 relache -> keyUp('{r2_key}')\n"
-                        self.root.after(0, lambda l=line: self.test_output.insert(tk.END, l))
-                        try: pydirectinput.keyUp(r2_key)
-                        except: pass
-                    last_rt = g.bRightTrigger
             time.sleep(0.01)
     
     def load_values(self):
