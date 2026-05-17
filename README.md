@@ -50,7 +50,7 @@ Le jeu ne voit **que le clavier**, jamais la manette.
 | `INSTALL.bat` | Installation complète (admin) |
 | `launch_nav2keys.bat` | Lancement quotidien |
 | `nav2keys.py` | Script de mapping v3.0.1 |
-| `README.txt` | Documentation complète |
+| `MANUEL.txt` | Documentation complète |
 
 ## Prérequis
 
