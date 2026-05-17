@@ -23,7 +23,7 @@ PRÉREQUIS
 - Python 3.12+ (https://www.python.org/downloads/)
   -> COCHEZ "Add Python to PATH" lors de l'installation
 - Navigation Controller Sony (PS Move)
-- ScpToolkit (inclus dans le pack)
+- ScpToolkit (téléchargé automatiquement depuis github.com/nefarius/ScpToolkit)
 
 INSTALLATION (une seule fois)
 ------------------------------
@@ -151,5 +151,4 @@ CONTENU DU PACK
   ├── INSTALL.bat              Installation complète (admin)
   ├── launch_nav2keys.bat      Lancement quotidien
   ├── nav2keys.py              Script de mapping v2.3
-  ├── ScpToolkit_Setup.exe     Installateur ScpToolkit
   └── README.txt               Ce fichier

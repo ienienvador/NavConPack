@@ -55,19 +55,31 @@ echo [3/5] Verification de ScpToolkit...
 if exist "C:\Program Files\Nefarius Software Solutions\ScpToolkit\ScpService.exe" (
     echo ScpToolkit deja installe. OK.
 ) else (
-    echo Installation de ScpToolkit...
-    if exist "%~dp0ScpToolkit_Setup.exe" (
-        echo Lancement de l'installateur ScpToolkit...
+    echo ScpToolkit non installe. Telechargement depuis la source officielle...
+    echo Source : https://github.com/nefarius/ScpToolkit
+    echo.
+    
+    set "SCP_URL=https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe"
+    set "SCP_DL=%TEMP%\ScpToolkit_Setup.exe"
+    
+    echo Telechargement en cours...
+    powershell -NoProfile -Command "Invoke-WebRequest -Uri '%SCP_URL%' -OutFile '%SCP_DL%' -UseBasicParsing"
+    
+    if exist "%SCP_DL%" (
+        echo Telechargement termine. Lancement de l'installateur...
         echo Suivez les etapes de l'installateur.
         echo Cochez "DS3 Controller" et "ScpVBus" lors de l'installation.
         echo.
-        start /wait "" "%~dp0ScpToolkit_Setup.exe"
+        start /wait "" "%SCP_DL%"
+        del "%SCP_DL%" >nul 2>&1
         echo.
         echo ScpToolkit installe.
     ) else (
-        echo [ERREUR] ScpToolkit_Setup.exe non trouve dans ce dossier.
-        echo Telechargez-le depuis :
+        echo [ERREUR] Telechargement echoue.
+        echo.
+        echo Telechargez ScpToolkit manuellement depuis :
         echo   https://github.com/nefarius/ScpToolkit/releases
+        echo.
         pause
         exit /b 1
     )

@@ -15,7 +15,7 @@ BF6 ne voit **que le clavier**, jamais la manette.
 ## Installation
 
 1. Installer Python 3.12+ depuis [python.org](https://www.python.org/downloads/) (cocher "Add Python to PATH")
-2. Exécuter `INSTALL.bat` en tant qu'administrateur
+2. Exécuter `INSTALL.bat` en tant qu'administrateur (ScpToolkit sera téléchargé automatiquement depuis [github.com/nefarius/ScpToolkit](https://github.com/nefarius/ScpToolkit/releases))
 3. Redémarrer le PC
 4. Allumer le Navigation Controller
 5. Double-cliquer sur `launch_nav2keys.bat`
