@@ -2,7 +2,7 @@
 
 ## Navigation Controller → Clavier pour PC
 
-Solution complète pour utiliser un **Sony Navigation Controller** (PS Move, VID 054C:PID 042F) sur PC Windows comme clavier, sans reWASD (banni par EAC).
+Solution complète pour utiliser un **Sony Navigation Controller** (PS Move) sur PC Windows comme clavier, sans reWASD (banni par EAC).
 
 ## Fonctionnement
 

@@ -22,7 +22,7 @@ PRÉREQUIS
 - Windows 10/11 (64-bit)
 - Python 3.12+ (https://www.python.org/downloads/)
   -> COCHEZ "Add Python to PATH" lors de l'installation
-- Navigation Controller Sony (VID 054C / PID 042F)
+- Navigation Controller Sony (PS Move)
 - ScpToolkit (inclus dans le pack)
 
 INSTALLATION (une seule fois)
