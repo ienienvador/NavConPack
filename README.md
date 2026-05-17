@@ -1,4 +1,4 @@
-# NavCon Pack v3.3.0
+# NavCon Pack v3.4.0
 
 ## Navigation Controller → Clavier pour PC
 
@@ -26,10 +26,13 @@ NavConPack/
 
 ## Installation (une seule fois)
 
-1. Ouvrir le dossier `01-INSTALLATION`
-2. Clic droit sur `INSTALL.bat` → **Exécuter en tant qu'administrateur**
-3. Suivre les étapes (Python → pydirectinput → ScpToolkit → Driver)
-4. Redémarrer le PC
+1. **Installer ScpToolkit manuellement** (OBLIGATOIRE) :
+   - Télécharger depuis : https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe
+   - Cocher **DS3 Controller** et **ScpVBus**
+   - Redémarrer le PC
+2. Ouvrir le dossier `01-INSTALLATION`
+3. Clic droit sur `INSTALL.bat` → **Exécuter en tant qu'administrateur**
+4. Le script vérifie Python, pydirectinput et ScpToolkit
 
 Voir `01-INSTALLATION/README_INSTALL.txt` pour les instructions détaillées.
 

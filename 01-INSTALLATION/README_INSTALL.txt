@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.3.0 - Instructions d'Installation
+  NavCon Pack v3.4.0 - Instructions d'Installation
 ================================================================
 
 PREREQUIS
@@ -7,18 +7,35 @@ PREREQUIS
 - Windows 10/11 (64-bit)
 - Python 3.12+ (https://www.python.org/downloads/)
   -> COCHEZ "Add Python to PATH" lors de l'installation
+- ScpToolkit installe MANUELLEMENT (voir ci-dessous)
 - Navigation Controller Sony (PS Move)
 
-INSTALLATION
-------------
+INSTALLATION DE SCPToolkit (A FAIRE AVANT INSTALL.BAT)
+------------------------------------------------------
+1. Telechargez ScpToolkit v1.6.238 :
+   https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe
+
+2. Lancez ScpToolkit_Setup.exe
+
+3. Lors de la selection des composants, cochez UNIQUEMENT :
+   [x] DS3 Controller          <-- OBLIGATOIRE (inclut Navigation Controller)
+   [x] ScpVBus                 <-- OBLIGATOIRE (bus virtuel Xbox 360)
+   [ ] DualShock 3             <-- OPTIONNEL (pas necessaire pour Nav Controller)
+   [ ] Xbox 360 Controller     <-- NE PAS COCHER (inutile)
+
+4. Completez l'installation
+
+5. IMPORTANT : Apres l'installation, redemarrez votre PC
+
+INSTALLATION DU PACK
+--------------------
 1. Clic droit sur INSTALL.bat -> "Executer en tant qu'administrateur"
 2. Le script va :
    - Verifier Python
    - Installer pydirectinput
-   - Telecharger et installer ScpToolkit
-   - Configurer le driver Navigation Controller
-   - Redemarrer le service ScpService
-3. Redemarrer le PC (recommande)
+   - Verifier que ScpToolkit est installe
+   - Redemarrer le service Ds3Service
+3. Si ScpToolkit n'est pas detecte, le script s'arrete avec instructions
 
 APRES INSTALLATION
 ------------------
@@ -40,6 +57,6 @@ Pour mettre a jour vers une nouvelle version :
 1. Telecharger le nouveau pack depuis GitHub
 2. Remplacer le contenu de 02-USAGE (conservez config.json si vous voulez garder vos parametres)
 3. Remplacer README.md et MANUEL.txt
-4. Relancer INSTALL.bat si la version ScpToolkit a change
+4. Relancer INSTALL.bat uniquement pour verifier pydirectinput
 
 Auteurs : ienien et OpenCode (IA)

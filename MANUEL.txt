@@ -23,7 +23,9 @@ PRÉREQUIS
 - Python 3.12+ (https://www.python.org/downloads/)
   -> COCHEZ "Add Python to PATH" lors de l'installation
 - Navigation Controller Sony (PS Move)
-- ScpToolkit (téléchargé automatiquement depuis github.com/nefarius/ScpToolkit)
+- ScpToolkit installe MANUELLEMENT (https://github.com/nefarius/ScpToolkit/releases)
+  -> Cochez "DS3 Controller" et "ScpVBus" lors de l'installation
+  -> NE PAS cocher "Xbox 360 Controller"
 
 INSTALLATION (une seule fois)
 ------------------------------

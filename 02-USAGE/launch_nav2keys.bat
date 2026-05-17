@@ -1,5 +1,5 @@
 @echo off
-title NavCon Keyboard Mapper v3.3.0
+title NavCon Keyboard Mapper v3.4.0
 cd /d "%~dp0"
 
 echo ============================================================

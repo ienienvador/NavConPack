@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
 echo ============================================================
-echo    NavCon Pack v3.3.0 - Installation Complete
+echo    NavCon Pack v3.4.0 - Installation Complete
 echo    Navigation Controller -^> Clavier pour PC
 echo ============================================================
 echo.
@@ -17,7 +17,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [1/5] Verification de Python...
+echo [1/4] Verification de Python...
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo Python non installe.
@@ -40,7 +40,7 @@ for /f "tokens=2" %%v in ('python --version 2^>^&1') do set pyver=%%v
 echo Python %pyver% detecte. OK.
 echo.
 
-echo [2/5] Installation de pydirectinput...
+echo [2/4] Installation de pydirectinput...
 pip install pydirectinput >nul 2>&1
 if %errorlevel% neq 0 (
     echo [ERREUR] Impossible d'installer pydirectinput.
@@ -51,70 +51,40 @@ if %errorlevel% neq 0 (
 echo pydirectinput installe. OK.
 echo.
 
-echo [3/5] Verification de ScpToolkit...
-set "SCP_FRESH_INSTALL=0"
+echo [3/4] Verification de ScpToolkit...
 if exist "C:\Program Files\Nefarius Software Solutions\ScpToolkit\ScpService.exe" (
-    echo ScpToolkit deja installe. OK.
-    echo Aucune reinstallation necessaire.
-    echo Les drivers existants seront preserves.
+    echo ScpToolkit detecte. OK.
 ) else (
-    set "SCP_FRESH_INSTALL=1"
-    echo ScpToolkit non installe. Telechargement depuis la source officielle...
-    echo Source : https://github.com/nefarius/ScpToolkit
+    echo [ERREUR] ScpToolkit n'est pas installe.
     echo.
-    
-    set "SCP_URL=https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe"
-    set "SCP_DL=%~dp0ScpToolkit_Setup.exe"
-    
-    echo Telechargement en cours...
-    powershell -NoProfile -Command "Invoke-WebRequest -Uri '%SCP_URL%' -OutFile '%SCP_DL%' -UseBasicParsing"
-    
-    if exist "%SCP_DL%" (
-        echo Telechargement termine. Lancement de l'installateur...
-        echo Suivez les etapes de l'installateur.
-        echo Cochez "DS3 Controller" et "ScpVBus" lors de l'installation.
-        echo.
-        start /wait "" "%SCP_DL%"
-        del "%SCP_DL%" >nul 2>&1
-        echo.
-        echo ScpToolkit installe.
-    ) else (
-        echo [ERREUR] Telechargement echoue.
-        echo.
-        echo Telechargez ScpToolkit manuellement depuis :
-        echo   https://github.com/nefarius/ScpToolkit/releases
-        echo.
-        pause
-        exit /b 1
-    )
+    echo ScpToolkit doit etre installe MANUELLEMENT avant de continuer.
+    echo.
+    echo 1. Telechargez ScpToolkit v1.6.238 :
+    echo    https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe
+    echo.
+    echo 2. Lancez l'installateur et cochez :
+    echo    [x] DS3 Controller
+    echo    [x] ScpVBus
+    echo    [ ] DualShock 3 (optionnel, pas necessaire pour Nav Controller)
+    echo.
+    echo 3. Completez l'installation puis relancez ce script.
+    echo.
+    pause
+    exit /b 1
 )
 echo.
 
-echo [4/5] Configuration du driver Navigation Controller...
-echo.
-
-if "!SCP_FRESH_INSTALL!"=="1" (
-    echo Premiere installation - configuration du driver...
-    echo.
-    
-    set "SCP_PATH=C:\Program Files\Nefarius Software Solutions\ScpToolkit"
-    echo Installation du driver DS3/Nav Controller...
-    set "INF_PATH=!SCP_PATH!\Driver\Ds3Controller_a177e5d2-2e65-4087-bff1-65cf1933efdb.inf"
-    
-    if exist "!INF_PATH!" (
-        pnputil /add-driver "!INF_PATH!" /install >nul 2>&1
-        echo Driver installe. OK.
-    ) else (
-        echo [INFO] INF non trouve a l'emplacement standard.
-        echo Le driver sera installe automatiquement par ScpToolkit au branchement.
-    )
+echo [4/4] Redemarrage du service ScpService...
+sc query Ds3Service >nul 2>&1
+if %errorlevel% equ 0 (
+    echo Service Ds3Service present. Redemarrage...
 ) else (
-    echo ScpToolkit deja configure - drivers preserves.
-    echo Aucune modification de driver necessaire.
+    echo [ERREUR] Service Ds3Service non trouve.
+    echo ScpToolkit n'est peut-etre pas installe correctement.
+    echo Relancez l'installateur ScpToolkit et cochez "DS3 Controller".
+    pause
+    exit /b 1
 )
-echo.
-
-echo [5/5] Redemarrage du service ScpService...
 net stop Ds3Service >nul 2>&1
 timeout /t 2 /nobreak >nul
 net start Ds3Service >nul 2>&1
@@ -143,7 +113,7 @@ echo Souhaitez-vous creer un raccourci sur le Bureau ?
 set /p choice="Oui/Non (O/N) : "
 if /i "%choice%"=="O" (
     echo Creation du raccourci...
-    powershell -NoProfile -Command "$WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\NavCon Keyboard Mapper.lnk'); $Shortcut.TargetPath = '%~dp0..\02-USAGE\launch_nav2keys.bat'; $Shortcut.WorkingDirectory = '%~dp0..\02-USAGE'; $Shortcut.Description = 'NavCon Keyboard Mapper v3.3.0'; $Shortcut.Save()"
+    powershell -NoProfile -Command "$WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\NavCon Keyboard Mapper.lnk'); $Shortcut.TargetPath = '%~dp0..\02-USAGE\launch_nav2keys.bat'; $Shortcut.WorkingDirectory = '%~dp0..\02-USAGE'; $Shortcut.Description = 'NavCon Keyboard Mapper v3.4.0'; $Shortcut.Save()"
     echo Raccourci cree sur le Bureau !
 )
 echo.
