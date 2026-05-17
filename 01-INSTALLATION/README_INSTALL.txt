@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.4.0 - Instructions d'Installation
+  NavCon Pack v3.5.0 - Instructions d'Installation
 ================================================================
 
 PREREQUIS
@@ -58,5 +58,21 @@ Pour mettre a jour vers une nouvelle version :
 2. Remplacer le contenu de 02-USAGE (conservez config.json si vous voulez garder vos parametres)
 3. Remplacer README.md et MANUEL.txt
 4. Relancer INSTALL.bat uniquement pour verifier pydirectinput
+
+OPTIONNEL — HidHide (pour les jeux Steam)
+-----------------------------------------
+Si vous jouez sur Steam, HidHide est recommande pour masquer le
+controleur virtuel de Steam Input.
+
+1. Telecharger HidHide :
+   https://github.com/nefarius/HidHide/releases
+2. Installer et redemarrer le PC
+3. Ouvrir HidHide Configuration Client :
+   - Applications : Ajouter python.exe a la whitelist
+   - Devices : Cocher le controleur Xbox 360 + "Enable device hiding"
+4. Verifier avec joy.cpl — le controleur ne doit plus apparaitre
+
+Voir MANUEL.txt section "SOLUTION RECOMMANDEE : HidHide"
+pour le guide complet.
 
 Auteurs : ienien et OpenCode (IA)

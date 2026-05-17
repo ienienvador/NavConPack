@@ -1,16 +1,20 @@
 @echo off
-title NavCon Keyboard Mapper v3.4.0
+title NavCon Keyboard Mapper v3.5.0
 cd /d "%~dp0"
 
 echo ============================================================
-echo    NavCon Keyboard Mapper v3.3.0
+echo    NavCon Keyboard Mapper v3.5.0
 echo ============================================================
 echo.
 echo [ATTENTION] Si vous lancez un jeu via STEAM :
-echo   Steam Input doit etre desactive pour ce jeu,
-echo   sinon la manette et le clavier entreront en conflit.
+echo   Le controleur virtuel est visible par Steam Input.
 echo.
-echo   Steam -^> Bibliotheque -^> Proprietes du jeu -^> Controleur
+echo   Solution recommandee : HidHide
+echo   1. Installer HidHide : https://github.com/nefarius/HidHide
+echo   2. Whitelister python.exe dans HidHide
+echo   3. Masquer le controleur Xbox 360 virtuel
+echo.
+echo   Alternative : Steam -^> Proprietes du jeu -^> Controleur
 echo   -^> "Disable Steam Input"
 echo.
 echo ============================================================

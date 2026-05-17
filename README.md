@@ -1,4 +1,4 @@
-# NavCon Pack v3.4.0
+# NavCon Pack v3.5.0
 
 ## Navigation Controller → Clavier pour PC
 
@@ -83,18 +83,24 @@ Pour mettre à jour vers une nouvelle version :
 - Python 3.12+ (https://www.python.org/downloads/)
 - Navigation Controller Sony (PS Move)
 
-## ⚠️ Jeux Steam — Important
+## ⚠️ Jeux Steam — Masquer le contrôleur avec HidHide
 
 Steam Input intercepte automatiquement les contrôleurs XInput (le contrôleur Xbox 360 virtuel créé par ScpVBus). Cela crée un conflit avec les touches clavier envoyées par `nav2keys.py`.
 
-**Solution rapide (par jeu) :**
-1. Steam → Bibliothèque → Clic droit sur le jeu → **Propriétés**
-2. Onglet **Contrôleur** → "Override for [jeu]" → **Disable Steam Input**
+**Solution recommandée : HidHide** (pare-feu de périphériques par Nefarius)
 
-**Solution globale :**
-Steam → Paramètres → Contrôleur → Désactiver "Activer Steam Input pour les manettes Xbox"
+HidHide masque le contrôleur virtuel de Steam tout en permettant à `nav2keys.py` d'y accéder.
 
-Voir `MANUEL.txt` section "JEUX STEAM" pour plus de détails.
+1. Télécharger HidHide : https://github.com/nefarius/HidHide/releases
+2. Installer et redémarrer le PC
+3. Ouvrir HidHide Configuration Client :
+   - **Applications** : Ajouter `python.exe` à la whitelist
+   - **Devices** : Cocher le contrôleur Xbox 360 virtuel + "Enable device hiding"
+4. Vérifier avec `joy.cpl` — le contrôleur ne doit plus apparaître
+
+Voir `MANUEL.txt` section "SOLUTION RECOMMANDEE : HidHide" pour le guide complet.
+
+**Alternative** : Désactiver Steam Input par jeu (Propriétés → Contrôleur → Disable Steam Input)
 
 ## Auteurs
 

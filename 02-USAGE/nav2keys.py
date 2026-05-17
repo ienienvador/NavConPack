@@ -142,7 +142,7 @@ def print_status(g):
 
 # ── Main ───────────────────────────────────────────────────────────
 def main():
-    print("NavCon -> Keyboard Mapper v3.4.0", flush=True)
+    print("NavCon -> Keyboard Mapper v3.5.0", flush=True)
     print("=" * 40, flush=True)
     
     slot = get_connected_slot()

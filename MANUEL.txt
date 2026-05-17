@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.3.0 - Navigation Controller -> Clavier
+  NavCon Pack v3.5.0 - Navigation Controller -> Clavier
   Pack complet déployable
 ================================================================
 
@@ -32,8 +32,11 @@ INSTALLATION (une seule fois)
 1. Copier le dossier NavConPack sur le nouveau PC
 2. Ouvrir le dossier 01-INSTALLATION
 3. Clic droit sur INSTALL.bat -> "Exécuter en tant qu'administrateur"
-4. Suivre les étapes (Python -> pydirectinput -> ScpToolkit -> Driver)
+4. Suivre les étapes (Python -> pydirectinput -> vérification ScpToolkit)
 5. Redémarrer le PC
+
+OPTIONNEL — Pour les jeux Steam (recommandé) :
+6. Installer HidHide (voir section "SOLUTION RECOMMANDEE : HidHide")
 
 UTILISATION QUOTIDIENNE
 -----------------------
@@ -173,20 +176,66 @@ Symptômes :
   - Les touches ne répondent pas comme attendu
   - L'overlay Steam affiche la manette comme active
 
-Solution 1 — Désactiver Steam Input par jeu (recommandé) :
-  1. Steam -> Bibliothèque
-  2. Clic droit sur le jeu -> Propriétés
-  3. Onglet "Contrôleur"
-  4. Dans "Override for [jeu]", sélectionner "Disable Steam Input"
+SOLUTION RECOMMANDEE : HidHide (masquage du contrôleur)
+-------------------------------------------------------
+HidHide est un "pare-feu de périphériques d'entrée" créé par
+Nefarius (le même auteur que ScpToolkit). Il permet de masquer
+le contrôleur Xbox 360 virtuel de Steam tout en permettant à
+nav2keys.py d'y accéder.
 
-Solution 2 — Désactiver Steam Input globalement :
-  1. Steam -> Paramètres -> Contrôleur
-  2. Désactiver "Activer Steam Input pour les manettes Xbox"
-  3. Redémarrer Steam
+ETAPE 1 — Installer HidHide :
+  1. Télécharger la dernière version depuis :
+     https://github.com/nefarius/HidHide/releases
+     (fichier HidHide_xxx_x64.exe)
+  2. Lancer l'installateur et suivre les étapes
+  3. REDÉMARRER le PC (obligatoire après installation)
 
-Solution 3 — Lancer le jeu hors Steam :
-  - Si le jeu est disponible hors Steam (Epic, GOG, etc.),
-    le lancer directement depuis son launcher d'origine
+ETAPE 2 — Configurer HidHide :
+  1. Ouvrir "HidHide Configuration Client" depuis le menu Démarrer
+  2. Onglet "Applications" :
+     a. Cliquer sur le bouton "+"
+     b. Naviguer vers votre python.exe (ex: C:\Python314\python.exe)
+        ou le chemin où Python est installé
+     c. Cliquer sur "Ouvrir" pour l'ajouter à la whitelist
+     d. Répéter pour chaque exécutable qui DOIT voir le contrôleur
+        (ex: votre launcher de jeu si besoin)
+  3. Onglet "Devices" :
+     a. Connecter le Navigation Controller
+     b. Cocher la case à côté du contrôleur Xbox 360 virtuel
+        (il apparaît comme "Xbox 360 Controller" ou "ScpVBus")
+        -> Un cadenas rouge doit apparaître
+     c. Cocher "Enable device hiding" en bas de la fenêtre
+  4. Fermer HidHide Configuration Client
+
+ETAPE 3 — Vérifier que ça fonctionne :
+  1. Appuyer sur Win+R, taper "joy.cpl" et valider
+  2. Le contrôleur Xbox 360 NE DOIT PAS apparaître dans la liste
+     (s'il n'y a pas d'autre manette connectée)
+  3. Si le contrôleur n'apparaît pas : HidHide fonctionne !
+  4. Lancer launch_nav2keys.bat — il doit détecter le controller
+     normalement (python.exe est dans la whitelist)
+  5. Lancer un jeu Steam — le jeu ne voit plus la manette,
+     uniquement les touches clavier envoyées par nav2keys.py
+
+NOTES IMPORTANTES :
+  - HidHide whitelist les applications par CHEMIN COMPLET
+    Si vous déplacez Python, il faut le re-whitelister
+  - Si le contrôleur change de méthode de connexion (USB <-> BT),
+    il faut cocher la nouvelle entrée dans l'onglet Devices
+  - Pour désactiver HidHide temporairement : décocher
+    "Enable device hiding" dans l'onglet Devices
+  - Steam.exe ne doit PAS être dans la whitelist
+
+SOLUTION ALTERNATIVE — Désactiver Steam Input (sans HidHide) :
+  Par jeu :
+    1. Steam -> Bibliothèque
+    2. Clic droit sur le jeu -> Propriétés
+    3. Onglet "Contrôleur"
+    4. Dans "Override for [jeu]", sélectionner "Disable Steam Input"
+  Globalement :
+    1. Steam -> Paramètres -> Contrôleur
+    2. Désactiver "Activer Steam Input pour les manettes Xbox"
+    3. Redémarrer Steam
 
 CONTENU DU PACK
 ---------------
@@ -199,7 +248,7 @@ CONTENU DU PACK
   └── 02-USAGE/
       ├── launch_nav2keys.bat    Lancement quotidien
       ├── configurator.bat       Interface de configuration GUI
-      ├── nav2keys.py            Script de mapping v3.3.0
+      ├── nav2keys.py            Script de mapping v3.5.0
       ├── configurator.py        Interface GUI (Tkinter)
       ├── config.json            Configuration utilisateur
       └── presets/               Profils preconfigures
