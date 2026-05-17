@@ -57,7 +57,7 @@ BF6 ne voit **que le clavier**, jamais la manette.
 
 - Windows 10/11 (64-bit)
 - Python 3.12+
-- Navigation Controller Sony (VID 054C / PID 042F)
+- Navigation Controller Sony (PS Move)
 
 ## Auteurs
 
