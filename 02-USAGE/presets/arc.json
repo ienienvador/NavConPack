@@ -1,0 +1,26 @@
+{
+  "name": "Assassin's Creed",
+  "description": "Mapping optimise pour Navigation Controller sur ARC",
+  "mapping": {
+    "0x1000": "space",
+    "0x2000": "c",
+    "0x0100": "1",
+    "0x0040": "shift",
+    "0x0010": "esc",
+    "0x0001": "3",
+    "0x0002": "4",
+    "0x0004": "r",
+    "0x0008": "g"
+  },
+  "triggers": {
+    "threshold": 60,
+    "L2": "ctrl"
+  },
+  "stick": {
+    "deadzone": 6000,
+    "up": "w",
+    "down": "s",
+    "left": "a",
+    "right": "d"
+  }
+}

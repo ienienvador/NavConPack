@@ -1,0 +1,26 @@
+{
+  "name": "Battlefield 6",
+  "description": "Mapping optimise pour Navigation Controller sur BF6",
+  "mapping": {
+    "0x1000": "space",
+    "0x2000": "c",
+    "0x0100": "q",
+    "0x0040": "shift",
+    "0x0010": "esc",
+    "0x0001": "3",
+    "0x0002": "4",
+    "0x0004": "1",
+    "0x0008": "f"
+  },
+  "triggers": {
+    "threshold": 80,
+    "L2": "x"
+  },
+  "stick": {
+    "deadzone": 7849,
+    "up": "w",
+    "down": "s",
+    "left": "a",
+    "right": "d"
+  }
+}

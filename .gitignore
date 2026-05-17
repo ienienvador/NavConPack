@@ -1,6 +1,29 @@
-*.zip
-SESSION_LOG.md
+# Python
 __pycache__/
 *.pyc
 *.pyo
+*.egg-info/
+*.egg
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*.bak
+
+# Project
+*.zip
+SESSION_LOG.md
 .env
