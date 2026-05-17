@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.0.1 - Navigation Controller -> Clavier
+  NavCon Pack v3.1.0 - Navigation Controller -> Clavier
   Pack complet déployable
 ================================================================
 
@@ -38,6 +38,23 @@ UTILISATION QUOTIDIENNE
 2. Double-cliquer sur launch_nav2keys.bat
 3. La console affiche "Controller détecté sur slot X"
 4. Lancer votre jeu - la manette agit comme un clavier
+
+CONFIGURATION GUI (nouveau en v3.1.0)
+--------------------------------------
+Lancer configurator.bat pour ouvrir l'interface graphique.
+
+Fonctionnalites :
+  - Onglet "Boutons" : Cliquer sur chaque bouton pour choisir sa touche
+  - Onglet "Triggers" : Slider pour le seuil (0-255) + touche L2/R2
+  - Onglet "Stick" : Slider deadzone (0-32767) + touches WASD
+  - Onglet "Presets" : Charger un profil (BF6, COD, ARC, Division)
+  - Onglet "Test" : Tester en temps reel avec vraies touches envoyees
+  - Bouton "Sauvegarder" : Ecrit config.json
+  - Bouton "Reinitialiser" : Restaure les valeurs par defaut
+
+La configuration est sauvegardee dans config.json.
+nav2keys.py lit ce fichier au demarrage.
+Si config.json n'existe pas, les valeurs par defaut sont utilisees.
 
 UTILISATION DU MAPPING
 ----------------------
@@ -150,5 +167,5 @@ CONTENU DU PACK
   NavConPack/
   ├── INSTALL.bat              Installation complète (admin)
   ├── launch_nav2keys.bat      Lancement quotidien
-  ├── nav2keys.py              Script de mapping v3.0.1
+  ├── nav2keys.py              Script de mapping v3.1.0
   └── README.txt               Ce fichier

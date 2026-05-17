@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
 echo ============================================================
-echo    NavCon Pack v3.0.1 - Installation Complete
+echo    NavCon Pack v3.1.0 - Installation Complete
 echo    Navigation Controller -^> Clavier pour PC
 echo ============================================================
 echo.

@@ -1,0 +1,32 @@
+{
+  "name": "Assassin's Creed",
+  "description": "Mapping optimise pour Assassin's Creed",
+  "mapping": {
+    "0x1000": "space",
+    "0x2000": "c",
+    "0x4000": "e",
+    "0x8000": "q",
+    "0x0100": "1",
+    "0x0200": "2",
+    "0x0020": "tab",
+    "0x0010": "esc",
+    "0x0040": "shift",
+    "0x0080": "f",
+    "0x0001": "3",
+    "0x0002": "4",
+    "0x0004": "r",
+    "0x0008": "g"
+  },
+  "triggers": {
+    "threshold": 60,
+    "L2": "ctrl",
+    "R2": "x"
+  },
+  "stick": {
+    "deadzone": 6000,
+    "up": "w",
+    "down": "s",
+    "left": "a",
+    "right": "d"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Battlefield 6",
+  "description": "Mapping optimise pour Battlefield 6",
+  "mapping": {
+    "0x1000": "space",
+    "0x2000": "c",
+    "0x4000": "r",
+    "0x8000": "2",
+    "0x0100": "q",
+    "0x0200": "g",
+    "0x0020": "tab",
+    "0x0010": "esc",
+    "0x0040": "shift",
+    "0x0080": "v",
+    "0x0001": "3",
+    "0x0002": "4",
+    "0x0004": "1",
+    "0x0008": "f"
+  },
+  "triggers": {
+    "threshold": 80,
+    "L2": "x",
+    "R2": "e"
+  },
+  "stick": {
+    "deadzone": 7849,
+    "up": "w",
+    "down": "s",
+    "left": "a",
+    "right": "d"
+  }
+}

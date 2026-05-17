@@ -1,4 +1,4 @@
-# NavCon Pack v3.0.1
+# NavCon Pack v3.1.0
 
 ## Navigation Controller → Clavier pour PC
 
@@ -20,6 +20,18 @@ Le jeu ne voit **que le clavier**, jamais la manette.
 4. Allumer le Navigation Controller
 5. Double-cliquer sur `launch_nav2keys.bat`
 6. Lancer le jeu
+
+## Configuration GUI (nouveau en v3.1.0)
+
+Lancer `configurator.bat` pour ouvrir l'interface de configuration graphique :
+
+- **Boutons** : Cliquer sur chaque bouton pour choisir sa touche dans un menu déroulant
+- **Triggers** : Ajuster le seuil de déclenchement (slider) et la touche associée
+- **Stick** : Ajuster la deadzone et les touches WASD
+- **Presets** : Charger un profil préconfiguré (BF6, COD, ARC, The Division)
+- **Test** : Tester en temps réel avec le controller connecté (vraies touches envoyées)
+
+La configuration est sauvegardée dans `config.json` et lue automatiquement par `nav2keys.py`.
 
 ## Mapping par défaut
 
@@ -49,7 +61,11 @@ Le jeu ne voit **que le clavier**, jamais la manette.
 |---------|------|
 | `INSTALL.bat` | Installation complète (admin) |
 | `launch_nav2keys.bat` | Lancement quotidien |
-| `nav2keys.py` | Script de mapping v3.0.1 |
+| `configurator.bat` | Interface de configuration GUI |
+| `nav2keys.py` | Script de mapping v3.1.0 |
+| `configurator.py` | Interface GUI (Tkinter) |
+| `config.json` | Configuration utilisateur |
+| `presets/` | Profils préconfigurés (BF6, COD, ARC, Division) |
 | `MANUEL.txt` | Documentation complète |
 
 ## Prérequis

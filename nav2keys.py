@@ -1,8 +1,44 @@
-import ctypes, time, sys
+import ctypes, time, sys, json, os
 from ctypes import wintypes
 import pydirectinput
 
 pydirectinput.FAILSAFE = False
+
+# ── Configuration ──────────────────────────────────────────────────
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
+
+DEFAULT_CONFIG = {
+    "mapping": {
+        "0x1000": "space", "0x2000": "c", "0x4000": "r", "0x8000": "2",
+        "0x0100": "q", "0x0200": "g", "0x0020": "tab", "0x0010": "esc",
+        "0x0040": "shift", "0x0080": "v",
+        "0x0001": "3", "0x0002": "4", "0x0004": "1", "0x0008": "f",
+    },
+    "triggers": {"threshold": 80, "L2": "x", "R2": "e"},
+    "stick": {"deadzone": 7849, "up": "w", "down": "s", "left": "a", "right": "d"}
+}
+
+def load_config():
+    if os.path.exists(CONFIG_PATH):
+        try:
+            with open(CONFIG_PATH) as f:
+                cfg = json.load(f)
+            for section in DEFAULT_CONFIG:
+                if section not in cfg:
+                    cfg[section] = DEFAULT_CONFIG[section]
+            return cfg
+        except Exception:
+            pass
+    return DEFAULT_CONFIG
+
+config = load_config()
+MAP = { int(k, 16): v for k, v in config["mapping"].items() }
+DZ = config["stick"]["deadzone"]
+TRIGGER_THRESHOLD = config["triggers"]["threshold"]
+L2_KEY = config["triggers"]["L2"]
+R2_KEY = config["triggers"]["R2"]
+WASD_KEYS = [config["stick"]["up"], config["stick"]["left"],
+             config["stick"]["down"], config["stick"]["right"]]
 
 # ── XInput API ─────────────────────────────────────────────────────
 class XINPUT_GAMEPAD(ctypes.Structure):
@@ -25,24 +61,6 @@ if not xinput:
 if not xinput:
     xinput = ctypes.windll.xinput9_1_0
 
-# ── Mapping (button_mask -> key_name for pydirectinput) ────────────
-MAP = {
-    0x1000: 'space',
-    0x2000: 'c',
-    0x4000: 'r',
-    0x8000: '2',
-    0x0100: 'q',
-    0x0200: 'g',
-    0x0020: 'tab',
-    0x0010: 'esc',
-    0x0040: 'shift',
-    0x0080: 'v',
-    0x0001: '3',
-    0x0002: '4',
-    0x0004: '1',
-    0x0008: 'f',
-}
-
 BTN_NAMES = {
     0x1000: 'A', 0x2000: 'B', 0x4000: 'X', 0x8000: 'Y',
     0x0100: 'LB', 0x0200: 'RB', 0x0020: 'Back', 0x0010: 'Start',
@@ -50,10 +68,8 @@ BTN_NAMES = {
     0x0001: 'D-U', 0x0002: 'D-D', 0x0004: 'D-L', 0x0008: 'D-R',
 }
 
-# ── State ──────────────────────────────────────────────────────────
+# ── State ─────────────────────────────────────────────────────────
 pressed = set()
-DZ = 7849
-TRIGGER_THRESHOLD = 80
 lt_pressed = False
 rt_pressed = False
 last_wasd = [False]*4
@@ -71,10 +87,9 @@ def do_wasd(lx, ly):
     lx = lx if abs(lx) > DZ else 0
     ly = ly if abs(ly) > DZ else 0
     cur = [ly < -DZ, lx < -DZ, ly > DZ, lx > DZ]
-    keys = ['w', 'a', 's', 'd']
     for i in range(4):
-        if cur[i] and not last_wasd[i]: pydirectinput.keyDown(keys[i])
-        elif last_wasd[i] and not cur[i]: pydirectinput.keyUp(keys[i])
+        if cur[i] and not last_wasd[i]: pydirectinput.keyDown(WASD_KEYS[i])
+        elif last_wasd[i] and not cur[i]: pydirectinput.keyUp(WASD_KEYS[i])
     last_wasd = cur
 
 def do_triggers(lt, rt):
@@ -83,21 +98,21 @@ def do_triggers(lt, rt):
     rt_down = rt > TRIGGER_THRESHOLD
     
     if lt_down and not lt_pressed:
-        lt_pressed = True; pydirectinput.keyDown('x')
+        lt_pressed = True; pydirectinput.keyDown(L2_KEY)
     elif not lt_down and lt_pressed:
-        lt_pressed = False; pydirectinput.keyUp('x')
+        lt_pressed = False; pydirectinput.keyUp(L2_KEY)
     
     if rt_down and not rt_pressed:
-        rt_pressed = True; pydirectinput.keyDown('e')
+        rt_pressed = True; pydirectinput.keyDown(R2_KEY)
     elif not rt_down and rt_pressed:
-        rt_pressed = False; pydirectinput.keyUp('e')
+        rt_pressed = False; pydirectinput.keyUp(R2_KEY)
 
 def release_all():
     global lt_pressed, rt_pressed
     for m in list(pressed): btn_change(m, False)
     do_wasd(0, 0)
-    if lt_pressed: lt_pressed = False; pydirectinput.keyUp('x')
-    if rt_pressed: rt_pressed = False; pydirectinput.keyUp('e')
+    if lt_pressed: lt_pressed = False; pydirectinput.keyUp(L2_KEY)
+    if rt_pressed: rt_pressed = False; pydirectinput.keyUp(R2_KEY)
 
 def get_connected_slot():
     state = XINPUT_STATE()
@@ -116,17 +131,17 @@ def print_status(g):
     
     lt = g.bLeftTrigger
     rt = g.bRightTrigger
-    if lt > TRIGGER_THRESHOLD: active.append(f'L2->x({lt})')
-    if rt > TRIGGER_THRESHOLD: active.append(f'R2->e({rt})')
+    if lt > TRIGGER_THRESHOLD: active.append(f'L2->{L2_KEY}({lt})')
+    if rt > TRIGGER_THRESHOLD: active.append(f'R2->{R2_KEY}({rt})')
     
     lx, ly = g.sThumbLX, g.sThumbLY
     lx_norm = lx if abs(lx) > DZ else 0
     ly_norm = ly if abs(ly) > DZ else 0
     wasd_active = []
-    if ly_norm < -DZ: wasd_active.append('W')
-    if lx_norm < -DZ: wasd_active.append('A')
-    if ly_norm > DZ: wasd_active.append('S')
-    if lx_norm > DZ: wasd_active.append('D')
+    if ly_norm < -DZ: wasd_active.append(WASD_KEYS[0].upper())
+    if lx_norm < -DZ: wasd_active.append(WASD_KEYS[1].upper())
+    if ly_norm > DZ: wasd_active.append(WASD_KEYS[2].upper())
+    if lx_norm > DZ: wasd_active.append(WASD_KEYS[3].upper())
     if wasd_active: active.append(f'Stick={"".join(wasd_active)}')
     
     status = ', '.join(active) if active else 'idle'
@@ -135,7 +150,7 @@ def print_status(g):
 
 # ── Main ───────────────────────────────────────────────────────────
 def main():
-    print("NavCon -> Keyboard Mapper v3.0.1", flush=True)
+    print("NavCon -> Keyboard Mapper v3.1.0", flush=True)
     print("=" * 40, flush=True)
     
     slot = get_connected_slot()
