@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.2.0 - Navigation Controller -> Clavier
+  NavCon Pack v3.3.0 - Navigation Controller -> Clavier
   Pack complet déployable
 ================================================================
 
@@ -28,24 +28,26 @@ PRÉREQUIS
 INSTALLATION (une seule fois)
 ------------------------------
 1. Copier le dossier NavConPack sur le nouveau PC
-2. Clic droit sur INSTALL.bat -> "Exécuter en tant qu'administrateur"
-3. Suivre les étapes (Python -> pydirectinput -> ScpToolkit -> Driver)
-4. Redémarrer le PC
+2. Ouvrir le dossier 01-INSTALLATION
+3. Clic droit sur INSTALL.bat -> "Exécuter en tant qu'administrateur"
+4. Suivre les étapes (Python -> pydirectinput -> ScpToolkit -> Driver)
+5. Redémarrer le PC
 
 UTILISATION QUOTIDIENNE
 -----------------------
-1. Allumer le Navigation Controller (USB ou Bluetooth)
-2. Double-cliquer sur launch_nav2keys.bat
-3. La console affiche "Controller détecté sur slot X"
+1. Ouvrir le dossier 02-USAGE
+2. Allumer le Navigation Controller (USB ou Bluetooth)
+3. Double-cliquer sur launch_nav2keys.bat
+4. La console affiche "Controller détecté sur slot X"
 4. Lancer votre jeu - la manette agit comme un clavier
 
-CONFIGURATION GUI (nouveau en v3.1.0)
---------------------------------------
-Lancer configurator.bat pour ouvrir l'interface graphique.
+CONFIGURATION GUI
+-----------------
+Ouvrir le dossier 02-USAGE et lancer configurator.bat.
 
 Fonctionnalites :
   - Onglet "Boutons" : Cliquer sur chaque bouton pour choisir sa touche
-  - Onglet "Triggers" : Slider pour le seuil (0-255) + touche L2/R2
+  - Onglet "Trigger L2" : Slider pour le seuil (0-255) + touche L2
   - Onglet "Stick" : Slider deadzone (0-32767) + touches WASD
   - Onglet "Presets" : Charger un profil (BF6, COD, ARC, Division)
   - Onglet "Test" : Tester en temps reel avec vraies touches envoyees
@@ -159,7 +161,15 @@ DÉPANNAGE
 CONTENU DU PACK
 ---------------
   NavConPack/
-  ├── INSTALL.bat              Installation complète (admin)
-  ├── launch_nav2keys.bat      Lancement quotidien
-  ├── nav2keys.py              Script de mapping v3.1.0
-  └── README.txt               Ce fichier
+  ├── README.md                  Presentation du projet
+  ├── MANUEL.txt                 Ce fichier
+  ├── 01-INSTALLATION/
+  │   ├── INSTALL.bat            Installation complete (admin)
+  │   └── README_INSTALL.txt     Instructions d'installation
+  └── 02-USAGE/
+      ├── launch_nav2keys.bat    Lancement quotidien
+      ├── configurator.bat       Interface de configuration GUI
+      ├── nav2keys.py            Script de mapping v3.3.0
+      ├── configurator.py        Interface GUI (Tkinter)
+      ├── config.json            Configuration utilisateur
+      └── presets/               Profils preconfigures

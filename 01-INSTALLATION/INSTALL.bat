@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
 echo ============================================================
-echo    NavCon Pack v3.2.0 - Installation Complete
+echo    NavCon Pack v3.3.0 - Installation Complete
 echo    Navigation Controller -^> Clavier pour PC
 echo ============================================================
 echo.
@@ -60,7 +60,7 @@ if exist "C:\Program Files\Nefarius Software Solutions\ScpToolkit\ScpService.exe
     echo.
     
     set "SCP_URL=https://github.com/nefarius/ScpToolkit/releases/download/v1.6.238.16010/ScpToolkit_Setup.exe"
-    set "SCP_DL=%TEMP%\ScpToolkit_Setup.exe"
+    set "SCP_DL=%~dp0ScpToolkit_Setup.exe"
     
     echo Telechargement en cours...
     powershell -NoProfile -Command "Invoke-WebRequest -Uri '%SCP_URL%' -OutFile '%SCP_DL%' -UseBasicParsing"
@@ -121,11 +121,21 @@ echo    Installation terminee !
 echo ============================================================
 echo.
 echo Pour utiliser la manette :
-echo   1. Redemarrez le PC (recommande)
+echo   1. Allez dans le dossier 02-USAGE
 echo   2. Allumez le Navigation Controller
 echo   3. Double-cliquez sur launch_nav2keys.bat
 echo   4. Lancez votre jeu
 echo.
 echo La manette agira comme un clavier dans le jeu.
+echo.
+
+REM === Creer un raccourci sur le Bureau ===
+echo Souhaitez-vous creer un raccourci sur le Bureau ?
+set /p choice="Oui/Non (O/N) : "
+if /i "%choice%"=="O" (
+    echo Creation du raccourci...
+    powershell -NoProfile -Command "$WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\NavCon Keyboard Mapper.lnk'); $Shortcut.TargetPath = '%~dp0..\02-USAGE\launch_nav2keys.bat'; $Shortcut.WorkingDirectory = '%~dp0..\02-USAGE'; $Shortcut.Description = 'NavCon Keyboard Mapper v3.3.0'; $Shortcut.Save()"
+    echo Raccourci cree sur le Bureau !
+)
 echo.
 pause

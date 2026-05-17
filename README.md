@@ -1,4 +1,4 @@
-# NavCon Pack v3.2.0
+# NavCon Pack v3.3.0
 
 ## Navigation Controller → Clavier pour PC
 
@@ -6,34 +6,47 @@ Solution complète pour utiliser un **Sony Navigation Controller** (PS Move) sur
 
 **Spécialisé Navigation Controller** : Cette version est optimisée exclusivement pour le Navigation Controller (demi-manette PS Move). Les boutons absents sur ce contrôleur (Square, Triangle, R1, R2, R3, Select) ont été retirés.
 
-## Fonctionnement
+## Structure du Pack
 
 ```
-Navigation Controller → ScpService → ScpVBus (Xbox 360 virtuel) → nav2keys.py (XInput) → Touches clavier (pydirectinput) → Jeu
+NavConPack/
+├── README.md                    ← Ce fichier
+├── MANUEL.txt                   ← Documentation complète
+├── 01-INSTALLATION/             ← Installation (une seule fois)
+│   ├── INSTALL.bat
+│   └── README_INSTALL.txt
+└── 02-USAGE/                    ← Usage quotidien
+    ├── launch_nav2keys.bat
+    ├── configurator.bat
+    ├── nav2keys.py
+    ├── configurator.py
+    ├── config.json
+    └── presets/
 ```
 
-Le jeu ne voit **que le clavier**, jamais la manette.
+## Installation (une seule fois)
 
-## Installation
+1. Ouvrir le dossier `01-INSTALLATION`
+2. Clic droit sur `INSTALL.bat` → **Exécuter en tant qu'administrateur**
+3. Suivre les étapes (Python → pydirectinput → ScpToolkit → Driver)
+4. Redémarrer le PC
 
-1. Installer Python 3.12+ depuis [python.org](https://www.python.org/downloads/) (cocher "Add Python to PATH")
-2. Exécuter `INSTALL.bat` en tant qu'administrateur (ScpToolkit sera téléchargé automatiquement depuis [github.com/nefarius/ScpToolkit](https://github.com/nefarius/ScpToolkit/releases))
-3. Redémarrer le PC
-4. Allumer le Navigation Controller
-5. Double-cliquer sur `launch_nav2keys.bat`
-6. Lancer le jeu
+Voir `01-INSTALLATION/README_INSTALL.txt` pour les instructions détaillées.
+
+## Usage Quotidien
+
+1. Ouvrir le dossier `02-USAGE`
+2. Allumer le Navigation Controller (USB ou Bluetooth)
+3. Double-cliquer sur `launch_nav2keys.bat`
+4. La console affiche "Controller détecté sur slot X"
+5. Lancer le jeu
 
 ## Configuration GUI
 
-Lancer `configurator.bat` pour ouvrir l'interface de configuration graphique :
-
-- **Boutons** : Interface spécialisée Navigation Controller (côté gauche uniquement)
-- **Trigger L2** : Ajuster le seuil de déclenchement (slider) et la touche associée
-- **Stick** : Ajuster la deadzone et les touches WASD
-- **Presets** : Charger un profil préconfiguré (BF6, COD, ARC, The Division)
-- **Test** : Tester en temps réel avec le controller connecté (vraies touches envoyées)
-
-La configuration est sauvegardée dans `config.json` et lue automatiquement par `nav2keys.py`.
+1. Ouvrir le dossier `02-USAGE`
+2. Double-cliquer sur `configurator.bat`
+3. Modifier le mapping visuellement
+4. Sauvegarder → `config.json` mis à jour
 
 ## Mapping par défaut
 
@@ -51,18 +64,15 @@ La configuration est sauvegardée dans `config.json` et lue automatiquement par 
 | D-Pad Gauche | 1 | Slot 1 |
 | D-Pad Droite | F | Interaction |
 
-## Contenu
+## Mise à jour
 
-| Fichier | Rôle |
-|---------|------|
-| `INSTALL.bat` | Installation complète (admin) |
-| `launch_nav2keys.bat` | Lancement quotidien |
-| `configurator.bat` | Interface de configuration GUI |
-| `nav2keys.py` | Script de mapping v3.2.0 |
-| `configurator.py` | Interface GUI (Tkinter) |
-| `config.json` | Configuration utilisateur |
-| `presets/` | Profils préconfigurés (BF6, COD, ARC, Division) |
-| `MANUEL.txt` | Documentation complète |
+Pour mettre à jour vers une nouvelle version :
+
+1. Télécharger le nouveau pack depuis GitHub
+2. **Préserver votre configuration** : copier `config.json` de l'ancien `02-USAGE/` vers le nouveau
+3. Remplacer le contenu de `02-USAGE/` par le nouveau
+4. Remplacer `README.md` et `MANUEL.txt`
+5. Relancer `01-INSTALLATION/INSTALL.bat` si la version ScpToolkit a changé
 
 ## Prérequis
 

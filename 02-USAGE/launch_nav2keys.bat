@@ -1,5 +1,5 @@
 @echo off
-title NavCon -> BF6 Keyboard Mapper
+title NavCon Keyboard Mapper v3.3.0
 cd /d "%~dp0"
 python nav2keys.py
 pause

@@ -63,7 +63,7 @@ class XINPUT_STATE(ctypes.Structure):
 class NavConConfigurator:
     def __init__(self, root):
         self.root = root
-        self.root.title("NavCon Configurator v3.2.0")
+        self.root.title("NavCon Configurator v3.3.0 - By ienien")
         self.root.geometry("850x700")
         self.root.resizable(False, False)
         
@@ -101,7 +101,7 @@ class NavConConfigurator:
         main_frame = ttk.Frame(self.root, padding=10)
         main_frame.pack(fill=tk.BOTH, expand=True)
         
-        title = ttk.Label(main_frame, text="NavCon Configurator v3.2.0",
+        title = ttk.Label(main_frame, text="NavCon Configurator v3.3.0 - By ienien",
                          font=('Segoe UI', 16, 'bold'))
         title.pack(pady=(0, 10))
         
