@@ -158,6 +158,34 @@ DÉPANNAGE
   -> Fermer AntiMicroX complètement (clic droit -> Quitter)
   -> nav2keys.py remplace AntiMicroX, ne pas utiliser les deux
 
+JEUX STEAM — Conflit manette/clavier
+-------------------------------------
+Steam possède une couche appelée "Steam Input" qui intercepte
+automatiquement tous les contrôleurs XInput. Comme ScpVBus crée
+un contrôleur Xbox 360 virtuel, Steam le voit et applique son
+propre mapping, ce qui crée un conflit avec les touches clavier
+envoyées par nav2keys.py.
+
+Symptômes :
+  - Le jeu jongle entre entrées manette et clavier
+  - Les touches ne répondent pas comme attendu
+  - L'overlay Steam affiche la manette comme active
+
+Solution 1 — Désactiver Steam Input par jeu (recommandé) :
+  1. Steam -> Bibliothèque
+  2. Clic droit sur le jeu -> Propriétés
+  3. Onglet "Contrôleur"
+  4. Dans "Override for [jeu]", sélectionner "Disable Steam Input"
+
+Solution 2 — Désactiver Steam Input globalement :
+  1. Steam -> Paramètres -> Contrôleur
+  2. Désactiver "Activer Steam Input pour les manettes Xbox"
+  3. Redémarrer Steam
+
+Solution 3 — Lancer le jeu hors Steam :
+  - Si le jeu est disponible hors Steam (Epic, GOG, etc.),
+    le lancer directement depuis son launcher d'origine
+
 CONTENU DU PACK
 ---------------
   NavConPack/

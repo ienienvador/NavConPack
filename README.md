@@ -77,8 +77,21 @@ Pour mettre à jour vers une nouvelle version :
 ## Prérequis
 
 - Windows 10/11 (64-bit)
-- Python 3.12+
+- Python 3.12+ (https://www.python.org/downloads/)
 - Navigation Controller Sony (PS Move)
+
+## ⚠️ Jeux Steam — Important
+
+Steam Input intercepte automatiquement les contrôleurs XInput (le contrôleur Xbox 360 virtuel créé par ScpVBus). Cela crée un conflit avec les touches clavier envoyées par `nav2keys.py`.
+
+**Solution rapide (par jeu) :**
+1. Steam → Bibliothèque → Clic droit sur le jeu → **Propriétés**
+2. Onglet **Contrôleur** → "Override for [jeu]" → **Disable Steam Input**
+
+**Solution globale :**
+Steam → Paramètres → Contrôleur → Désactiver "Activer Steam Input pour les manettes Xbox"
+
+Voir `MANUEL.txt` section "JEUX STEAM" pour plus de détails.
 
 ## Auteurs
 

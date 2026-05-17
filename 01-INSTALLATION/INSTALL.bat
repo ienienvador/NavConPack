@@ -54,6 +54,12 @@ echo.
 echo [3/5] Verification de ScpToolkit...
 if exist "C:\Program Files\Nefarius Software Solutions\ScpToolkit\ScpService.exe" (
     echo ScpToolkit deja installe. OK.
+    echo Aucune reinstallation necessaire.
+    echo.
+    echo [NOTE] Si vous rencontrez des problemes de driver,
+    echo        reinitialisez le driver via le Gestionnaire de peripheriques :
+    echo        Peripherique Sony Navigation Controller -^> Mettre a jour le pilote
+    echo.
 ) else (
     echo ScpToolkit non installe. Telechargement depuis la source officielle...
     echo Source : https://github.com/nefarius/ScpToolkit
@@ -87,18 +93,26 @@ if exist "C:\Program Files\Nefarius Software Solutions\ScpToolkit\ScpService.exe
 echo.
 
 echo [4/5] Configuration du driver Navigation Controller...
-echo Suppression des anciens drivers conflictuels...
-pnputil /delete-driver oem44.inf /uninstall /force >nul 2>&1
-pnputil /delete-driver oem76.inf /uninstall /force >nul 2>&1
-pnputil /delete-driver oem74.inf /uninstall /force >nul 2>&1
+echo.
+echo Verification des drivers installes...
+echo.
 
-echo Installation du driver DS3/Nav Controller...
+REM === Detection dynamique des drivers conflictuels ===
+REM On cherche uniquement les drivers libusb0 pour le Navigation Controller (VID 054C)
+REM Les drivers ScpToolkit (libusbk) doivent etre preserves
+
 set "SCP_PATH=C:\Program Files\Nefarius Software Solutions\ScpToolkit"
+
+REM Utiliser PowerShell pour une detection fiable
+powershell -NoProfile -Command "$ErrorActionPreference='SilentlyContinue'; $drivers = pnputil /enum-drivers /class System; $conflictCount = 0; foreach ($line in $drivers) { if ($line -match 'Published Name\s*:\s*(oem\d+\.inf)') { $pubName = $Matches[1]; $content = pnputil /enum-drivers $pubName; if ($content -match 'libusb0' -and $content -match '054C') { Write-Host \"  [CONFLIT] $pubName (libusb0 pour device Sony)\"; pnputil /delete-driver $pubName /uninstall /force 2>&1 | Out-Null; $conflictCount++ } } }; if ($conflictCount -eq 0) { Write-Host '  Aucun driver conflictuel detecte.' } else { Write-Host \"  $conflictCount driver(s) conflictuel(s) supprime(s).\" }"
+echo.
+
+echo Installation/verification du driver DS3/Nav Controller...
 set "INF_PATH=%SCP_PATH%\Driver\Ds3Controller_a177e5d2-2e65-4087-bff1-65cf1933efdb.inf"
 
 if exist "%INF_PATH%" (
     pnputil /add-driver "%INF_PATH%" /install >nul 2>&1
-    echo Driver installe. OK.
+    echo Driver installe/verifie. OK.
 ) else (
     echo [INFO] INF non trouve a l'emplacement standard.
     echo Le driver sera installe automatiquement par ScpToolkit au branchement.
