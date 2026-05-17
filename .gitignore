@@ -1,0 +1,6 @@
+*.zip
+SESSION_LOG.md
+__pycache__/
+*.pyc
+*.pyo
+.env
