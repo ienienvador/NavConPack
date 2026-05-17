@@ -2,15 +2,15 @@
 
 ## Navigation Controller → Clavier pour PC
 
-Solution complète pour utiliser un **Sony Navigation Controller** (PS Move) sur PC Windows comme clavier, sans reWASD (banni par EAC).
+Solution complète pour utiliser un **Sony Navigation Controller** (PS Move) sur PC Windows comme clavier. Compatible avec tous les jeux — aucune détection de manette parasite.
 
 ## Fonctionnement
 
 ```
-Navigation Controller → ScpService → ScpVBus (Xbox 360 virtuel) → nav2keys.py (XInput) → Touches clavier (pydirectinput) → BF6
+Navigation Controller → ScpService → ScpVBus (Xbox 360 virtuel) → nav2keys.py (XInput) → Touches clavier (pydirectinput) → Jeu
 ```
 
-BF6 ne voit **que le clavier**, jamais la manette.
+Le jeu ne voit **que le clavier**, jamais la manette.
 
 ## Installation
 
@@ -23,25 +23,25 @@ BF6 ne voit **que le clavier**, jamais la manette.
 
 ## Mapping par défaut
 
-| Bouton Nav | Touche | Action |
-|-----------|--------|--------|
+| Bouton Nav | Touche | Action (exemple) |
+|-----------|--------|------------------|
 | Stick Gauche | WASD | Déplacement |
 | L3 | Shift | Sprint |
 | Cross (X) | Espace | Saut |
 | Circle (O) | C | S'accroupir |
 | Square ([]) | R | Recharger |
 | Triangle (A) | 2 | Arme secondaire |
-| L1 | Q | Répéter/Commo |
-| R1 | G | Grenade |
-| L2 (trigger) | X | Plat ventre |
+| L1 | Q | Action rapide |
+| R1 | G | Grenade / Objet |
+| L2 (trigger) | X | Action alternative |
 | R2 (trigger) | E | Interagir |
-| Select | Tab | Scoreboard |
-| Start | Échap | Menu |
-| D-Pad Haut | 3 | Gadget |
-| D-Pad Bas | 4 | Spécial |
-| D-Pad Gauche | 1 | Arme principale |
-| D-Pad Droite | F | Interagir |
-| R3 | V | Mêlée |
+| Select | Tab | Scoreboard / Menu |
+| Start | Échap | Pause |
+| D-Pad Haut | 3 | Slot 3 |
+| D-Pad Bas | 4 | Slot 4 |
+| D-Pad Gauche | 1 | Slot 1 |
+| D-Pad Droite | F | Interaction |
+| R3 | V | Mêlée / Action |
 
 ## Contenu
 
@@ -50,7 +50,6 @@ BF6 ne voit **que le clavier**, jamais la manette.
 | `INSTALL.bat` | Installation complète (admin) |
 | `launch_nav2keys.bat` | Lancement quotidien |
 | `nav2keys.py` | Script de mapping v2.3 |
-| `ScpToolkit_Setup.exe` | Installateur ScpToolkit |
 | `README.txt` | Documentation complète |
 
 ## Prérequis

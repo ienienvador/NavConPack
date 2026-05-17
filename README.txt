@@ -6,12 +6,12 @@
 AUTEURS & COLLABORATION
 -----------------------
 Ce projet a été développé en collaboration entre :
-  - [Votre Nom] : conception, tests en jeu, validation du mapping BF6
+  - [Votre Nom] : conception, tests en jeu, validation du mapping
   - OpenCode (IA) : développement du script, debugging, optimisation
 
 Recherche et développement effectués ensemble sur plusieurs sessions
 de tests, incluant le diagnostic des drivers, la résolution des
-conflits manette/clavier, et l'adaptation pour Battlefield 6.
+conflits manette/clavier, et l'adaptation pour les jeux PC.
 
 Ce pack est le résultat d'une recherche approfondie pour trouver
 une solution fonctionnelle sans utiliser reWASD (banni par EAC).
@@ -37,19 +37,19 @@ UTILISATION QUOTIDIENNE
 1. Allumer le Navigation Controller (USB ou Bluetooth)
 2. Double-cliquer sur launch_nav2keys.bat
 3. La console affiche "Controller détecté sur slot X"
-4. Lancer BF6 - la manette agit comme un clavier
+4. Lancer votre jeu - la manette agit comme un clavier
 
 UTILISATION DU MAPPING
 ----------------------
 Le script nav2keys.py traduit chaque bouton du Navigation Controller
-en une touche clavier. BF6 reçoit uniquement des frappes clavier,
+en une touche clavier. Le jeu reçoit uniquement des frappes clavier,
 jamais de signaux de manette.
 
 Comment ça marche :
   1. ScpService détecte la manette et crée un contrôleur Xbox 360 virtuel
   2. nav2keys.py lit ce contrôleur virtuel via XInput
   3. Chaque appui sur un bouton est converti en touche clavier
-  4. BF6 reçoit la touche comme si vous tapiez au clavier
+  4. Le jeu reçoit la touche comme si vous tapiez au clavier
 
 Important :
   - NE PAS utiliser AntiMicroX en même temps (conflit)
@@ -59,7 +59,7 @@ Important :
 
 MAPPING PAR DÉFAUT
 ------------------
-  Bouton Nav        Touche    Action BF6
+  Bouton Nav        Touche    Action (exemple)
   ───────────────── ───────── ──────────────────────
   Stick Gauche      WASD      Déplacement
   L3 (clic stick)   Shift     Sprint
@@ -67,17 +67,17 @@ MAPPING PAR DÉFAUT
   Circle (O)        C         S'accroupir
   Square ([])       R         Recharger
   Triangle (A)      2         Arme secondaire
-  L1                Q         Répéter/Commo rose
-  R1                G         Grenade
-  L2 (trigger)      X         Être à plat ventre
-  R2 (trigger)      E         Interagir/Utiliser
-  Select            Tab       Scoreboard
-  Start             Échap     Menu
-  D-Pad Haut        3         Gadget
-  D-Pad Bas         4         Spécial
-  D-Pad Gauche      1         Arme principale
-  D-Pad Droite      F         Interagir
-  R3 (clic stick)   V         Mêlée
+  L1                Q         Action rapide
+  R1                G         Grenade / Objet
+  L2 (trigger)      X         Action alternative
+  R2 (trigger)      E         Interagir
+  Select            Tab       Scoreboard / Menu
+  Start             Échap     Pause
+  D-Pad Haut        3         Slot 3
+  D-Pad Bas         4         Slot 4
+  D-Pad Gauche      1         Slot 1
+  D-Pad Droite      F         Interaction
+  R3 (clic stick)   V         Mêlée / Action
 
 Notes sur les triggers :
   - L2 et R2 sont analogiques (pression progressive)
@@ -141,7 +141,7 @@ DÉPANNAGE
   -> Seuil à 80, appuyer à fond sur le trigger
   -> Modifier TRIGGER_THRESHOLD dans nav2keys.py si besoin
 
-"BF6 voit encore la manette"
+"Le jeu voit encore la manette"
   -> Fermer AntiMicroX complètement (clic droit -> Quitter)
   -> nav2keys.py remplace AntiMicroX, ne pas utiliser les deux
 

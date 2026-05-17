@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 echo ============================================================
 echo    NavCon Pack v3.0 - Installation Complete
-echo    Navigation Controller -^> Clavier pour BF6
+echo    Navigation Controller -^> Clavier pour PC
 echo ============================================================
 echo.
 
@@ -124,7 +124,7 @@ echo Pour utiliser la manette :
 echo   1. Redemarrez le PC (recommande)
 echo   2. Allumez le Navigation Controller
 echo   3. Double-cliquez sur launch_nav2keys.bat
-echo   4. Lancez BF6
+echo   4. Lancez votre jeu
 echo.
 echo La manette agira comme un clavier dans le jeu.
 echo.
