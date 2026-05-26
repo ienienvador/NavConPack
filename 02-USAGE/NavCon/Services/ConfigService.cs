@@ -11,9 +11,21 @@ public class ConfigService
 
     public ConfigService()
     {
-        var baseDir = Path.GetDirectoryName(Environment.ProcessPath!) ?? ".";
-        _configPath = Path.Combine(baseDir, "config.json");
-        _presetsDir = Path.Combine(baseDir, "presets");
+        var dir = Path.GetDirectoryName(Environment.ProcessPath) ?? ".";
+        string? cfgPath = null, presetsPath = null;
+        for (int i = 0; i < 10; i++)
+        {
+            var testCfg = Path.Combine(dir, "config.json");
+            var testPresets = Path.Combine(dir, "presets");
+            if (cfgPath == null && File.Exists(testCfg)) cfgPath = testCfg;
+            if (presetsPath == null && Directory.Exists(testPresets)) presetsPath = testPresets;
+            if (cfgPath != null && presetsPath != null) break;
+            var parent = Path.GetDirectoryName(dir);
+            if (parent == null || parent == dir) break;
+            dir = parent;
+        }
+        _configPath = cfgPath ?? Path.Combine(Path.GetDirectoryName(Environment.ProcessPath) ?? ".", "config.json");
+        _presetsDir = presetsPath ?? Path.Combine(Path.GetDirectoryName(Environment.ProcessPath) ?? ".", "presets");
     }
 
     public AppConfig LoadConfig()

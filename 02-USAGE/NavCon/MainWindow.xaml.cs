@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Threading;
 using NavCon.Models;
 using NavCon.Services;
@@ -40,9 +39,16 @@ public partial class MainWindow : Window
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        _currentConfig = _config.LoadConfig();
-        LoadPresetList();
-        CheckHidHide();
+        try
+        {
+            _currentConfig = _config.LoadConfig();
+            LoadPresetList();
+            CheckHidHide();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erreur au demarrage : {ex.Message}");
+        }
 
         _slot = XInputService.FindConnectedSlot();
         if (_slot >= 0)

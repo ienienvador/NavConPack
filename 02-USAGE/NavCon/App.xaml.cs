@@ -1,13 +1,16 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NavCon;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
+    public App()
+    {
+        DispatcherUnhandledException += (_, e) =>
+        {
+            MessageBox.Show($"Erreur: {e.Exception.Message}", "NavCon",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+        };
+    }
 }
-

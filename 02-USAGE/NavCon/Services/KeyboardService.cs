@@ -13,11 +13,21 @@ public class KeyboardService : IDisposable
 
     public KeyboardService()
     {
-        _helperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..", "keyboard_helper.py");
-        if (!File.Exists(_helperPath))
-            _helperPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "keyboard_helper.py");
-        if (!File.Exists(_helperPath))
-            _helperPath = Path.Combine(Path.GetDirectoryName(Environment.ProcessPath!)!, "keyboard_helper.py");
+        _helperPath = FindHelper();
+    }
+
+    private static string FindHelper()
+    {
+        var dir = Path.GetDirectoryName(Environment.ProcessPath) ?? ".";
+        for (int i = 0; i < 10; i++)
+        {
+            var test = Path.Combine(dir, "keyboard_helper.py");
+            if (File.Exists(test)) return test;
+            var parent = Path.GetDirectoryName(dir);
+            if (parent == null || parent == dir) break;
+            dir = parent;
+        }
+        return "keyboard_helper.py";
     }
 
     public bool Start()
