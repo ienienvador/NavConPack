@@ -18,8 +18,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // English (United States) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
 #pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
@@ -49,8 +49,8 @@ BEGIN
     "#define _AFX_NO_TRACKER_RESOURCES\r\n"
     "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
     "\r\n"
-    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
-    "LANGUAGE 9, 1\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)\r\n"
+    "LANGUAGE 12, 1\r\n"
     "#include ""afxres.rc""      // Standard components\r\n"
     "#if !defined(_AFXDLL)\r\n"
     "#include ""afxribbon.rc""   // MFC ribbon and control bar resources\r\n"
@@ -180,42 +180,42 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_STATIC_MESSAGEBOX_OK "&Ok"
-    IDS_STATIC_MESSAGEBOX_CANCEL "&Cancel"
-    IDS_STATIC_MESSAGEBOX_RETRY "&Retry"
-    IDS_STATIC_MESSAGEBOX_IGNORE "&Ignore"
-    IDS_STATIC_MESSAGEBOX_ABORT "&Abort"
-    IDS_STATIC_MESSAGEBOX_YES "&Yes"
-    IDS_STATIC_MESSAGEBOX_NO "&No"
-    IDS_DIALOG_APPLICATION  "HidHide configuration client"
-    IDS_DIALOG_FILE_OPEN    "Identify the application that will be allowed to look through the cloak"
+    IDS_STATIC_MESSAGEBOX_OK "&Oui"
+    IDS_STATIC_MESSAGEBOX_CANCEL "&Annuler"
+    IDS_STATIC_MESSAGEBOX_RETRY "&Réessayer"
+    IDS_STATIC_MESSAGEBOX_IGNORE "&Ignorer"
+    IDS_STATIC_MESSAGEBOX_ABORT "&Abandonner"
+    IDS_STATIC_MESSAGEBOX_YES "&Oui"
+    IDS_STATIC_MESSAGEBOX_NO "&Non"
+    IDS_DIALOG_APPLICATION  "HidHide client de configuration"
+    IDS_DIALOG_FILE_OPEN    "Choisissez l'application autorisée à voir à travers le masque"
     IDS_STATIC_FILE_OPEN_FILTER 
-                            "Applications |*.exe; *.com; *.bin|Libraries |*.dll; *.ocx|All Files |*.*||"
+                            "Applications |*.exe; *.com; *.bin|Bibliothèques |*.dll; *.ocx|Tous les fichiers |*.*||"
     IDS_TAB_APPLICATION_HEADER_0 "Applications"
-    IDS_TAB_APPLICATION_HEADER_1 "Devices"
+    IDS_TAB_APPLICATION_HEADER_1 "Périphériques"
 END
 
 STRINGTABLE
 BEGIN
     IDS_STATIC_WHITELIST_GUIDANCE 
-                            "List here the applications HidHide should allow to look through the cloak. Any pre-selected application is not found at the registered location."
+                            "Listez les applications que HidHide doit autoriser à voir à travers le masque. Toute application présélectionnée est introuvable à l'emplacement enregistré."
     IDS_BUTTON_WHITELIST_INSERT "&+"
     IDS_BUTTON_WHITELIST_DELETE "&-"
-    IDS_CHECK_BLACKLIST_FILTER "&Filter-out disconnected"
-    IDS_CHECK_BLACKLIST_GAMING "&Gaming devices only"
-    IDS_CHECK_BLACKLIST_ENABLE "&Enable device hiding"
+    IDS_CHECK_BLACKLIST_FILTER "&Filtrer les périphériques déconnectés"
+    IDS_CHECK_BLACKLIST_GAMING "&Périphériques de jeu uniquement"
+    IDS_CHECK_BLACKLIST_ENABLE "&Activer le masquage des périphériques"
     IDS_STATIC_BLACKLIST_GUIDANCE 
-                            "Select one or more devices and press Enable to control the cloaking. RE-CONNECT the devices afterwards for changes to take effect."
+                            "Sélectionnez un ou plusieurs périphériques puis activez le masquage. RE-BRANCHEZ les périphériques ensuite pour que les changements prennent effet."
     IDS_CONTROL_DEVICE_NAME "\\\\.\\HidHide"
     IDS_HID_ATTRIBUTE_DENIED "denied"
     IDS_HID_ATTRIBUTE_ABSENT "absent"
     IDS_STATIC_MESSAGEBOX_PRESENT 
-                            "The HidHide control device can't be reached. When HidHide is just installed be sure to REBOOT first else inspect the status of the Nefarius HidHide driver under System Devices in the Device Manager and ensure it is properly loaded and enabled. Once corrected press Retry. When the issue can't be resolved press Cancel and re-install the HidHide software."
+                            "Le périphérique de contrôle HidHide est inaccessible. Si HidHide vient d'être installé, veuillez d'abord REDÉMARRER, sinon vérifiez l'état du pilote Nefarius HidHide dans le Gestionnaire de périphériques sous Périphériques système et assurez-vous qu'il est correctement chargé et activé. Une fois corrigé, appuyez sur Réessayer. Si le problème persiste, appuyez sur Annuler et réinstallez HidHide."
     IDS_STATIC_MESSAGEBOX_IN_USE 
-                            "The HidHide control device can't be accessed. Be sure to close the HidHide command line interface or any other application. When the issue can't be resolved after a REBOOT press Cancel and re-install the HidHide software."
+                            "Le périphérique de contrôle HidHide est actuellement utilisé. Fermez l'interface en ligne de commande HidHide ou toute autre application. Si le problème persiste après un REDÉMARRAGE, appuyez sur Annuler et réinstallez HidHide."
     IDS_STATIC_MESSAGEBOX_EXCEPTION 
-                            "Something unforeseen has happened which cannot be recovered from. Program execution has to be terminated. Sorry for the inconvenience."
-    IDS_CHECK_WHITELIST_INVERSE "&Inverse application cloak"
+                            "Une erreur inattendue et irrécupérable est survenue. L'exécution du programme doit être interrompue. Veuillez nous excuser pour la gêne occasionnée."
+    IDS_CHECK_WHITELIST_INVERSE "&Inverser le masquage d'applications"
 END
 
 STRINGTABLE
@@ -376,8 +376,8 @@ END
 #define _AFX_NO_TRACKER_RESOURCES
 #define _AFX_NO_PROPERTY_RESOURCES
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE 9, 1
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+LANGUAGE 12, 1
 #include "afxres.rc"      // Standard components
 #if !defined(_AFXDLL)
 #include "afxribbon.rc"   // MFC ribbon and control bar resources

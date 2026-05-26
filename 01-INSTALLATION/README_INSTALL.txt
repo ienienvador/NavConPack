@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.5.0 - Instructions d'Installation
+  NavCon Pack v3.6.0 - Instructions d'Installation
 ================================================================
 
 PREREQUIS
@@ -28,13 +28,14 @@ INSTALLATION DE SCPToolkit (A FAIRE AVANT INSTALL.BAT)
 5. IMPORTANT : Apres l'installation, redemarrez votre PC
 
 INSTALLATION DU PACK
---------------------
+-------------------
 1. Clic droit sur INSTALL.bat -> "Executer en tant qu'administrateur"
 2. Le script va :
    - Verifier Python
    - Installer pydirectinput
    - Verifier que ScpToolkit est installe
    - Redemarrer le service Ds3Service
+   - (Optionnel) Installer/Configurer HidHide pour les jeux Steam
 3. Si ScpToolkit n'est pas detecte, le script s'arrete avec instructions
 
 APRES INSTALLATION
@@ -59,20 +60,17 @@ Pour mettre a jour vers une nouvelle version :
 3. Remplacer README.md et MANUEL.txt
 4. Relancer INSTALL.bat uniquement pour verifier pydirectinput
 
-OPTIONNEL — HidHide (pour les jeux Steam)
------------------------------------------
-Si vous jouez sur Steam, HidHide est recommande pour masquer le
-controleur virtuel de Steam Input.
+HidHide (pour les jeux Steam)
+-----------------------------
+Depuis v3.6.0, HidHide est configure automatiquement :
+  - INSTALL.bat etape 5 : Detecte si HidHide est installe.
+    Si oui, configure python.exe en whitelist et active le masquage.
+    Si non, propose de telecharger et d'installer HidHide.
+  - launch_nav2keys.bat : Reconfigure HidHide a chaque lancement.
 
-1. Telecharger HidHide :
-   https://github.com/nefarius/HidHide/releases
-2. Installer et redemarrer le PC
-3. Ouvrir HidHide Configuration Client :
-   - Applications : Ajouter python.exe a la whitelist
-   - Devices : Cocher le controleur Xbox 360 + "Enable device hiding"
-4. Verifier avec joy.cpl — le controleur ne doit plus apparaitre
+Aucune configuration manuelle necessaire.
 
 Voir MANUEL.txt section "SOLUTION RECOMMANDEE : HidHide"
-pour le guide complet.
+pour les details et la configuration manuelle si besoin.
 
 Auteurs : ienien et OpenCode (IA)

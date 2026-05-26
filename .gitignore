@@ -27,3 +27,6 @@ desktop.ini
 *.zip
 SESSION_LOG.md
 .env
+
+# Compiled C# helper (compiled at first launch from .cs source)
+02-USAGE/xinput_helper.exe

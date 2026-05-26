@@ -1,5 +1,4 @@
-import ctypes, time, sys, json, os
-from ctypes import wintypes
+import time, sys, json, os, subprocess
 import pydirectinput
 
 pydirectinput.FAILSAFE = False
@@ -44,26 +43,46 @@ L2_KEY = config["triggers"]["L2"]
 WASD_KEYS = [config["stick"]["up"], config["stick"]["left"],
              config["stick"]["down"], config["stick"]["right"]]
 
-# ── XInput API ─────────────────────────────────────────────────────
-class XINPUT_GAMEPAD(ctypes.Structure):
-    _fields_ = [
-        ('wButtons', wintypes.WORD),
-        ('bLeftTrigger', wintypes.BYTE),
-        ('bRightTrigger', wintypes.BYTE),
-        ('sThumbLX', wintypes.SHORT),
-        ('sThumbLY', wintypes.SHORT),
-        ('sThumbRX', wintypes.SHORT),
-        ('sThumbRY', wintypes.SHORT),
-    ]
+def _find_helper():
+    h = os.path.join(os.path.dirname(__file__), 'xinput_helper.exe')
+    if os.path.exists(h): return h
+    s = os.path.join(os.path.dirname(__file__), 'xinput_helper.cs')
+    if not os.path.exists(s): return None
+    r = subprocess.run(['powershell', '-NoProfile', '-Command',
+        'try { Add-Type -OutputAssembly "' + h + '" -TypeDefinition (Get-Content "' + s + '" -Raw) -Language CSharp -WarningAction SilentlyContinue; exit 0 } catch { exit 1 }'],
+        capture_output=True, text=True, timeout=30)
+    return h if r.returncode == 0 and os.path.exists(h) else None
 
-class XINPUT_STATE(ctypes.Structure):
-    _fields_ = [('dwPacketNumber', wintypes.DWORD), ('Gamepad', XINPUT_GAMEPAD)]
+_XH_PATH = _find_helper()
 
-xinput = ctypes.windll.xinput1_4
-if not xinput:
-    xinput = ctypes.windll.xinput1_3
-if not xinput:
-    xinput = ctypes.windll.xinput9_1_0
+def _xh_run(*args):
+    if not _XH_PATH: return None
+    try:
+        r = subprocess.run([_XH_PATH] + list(args), capture_output=True, text=True, timeout=5)
+        return r.stdout.strip()
+    except: return None
+
+def get_connected_slot():
+    out = _xh_run()
+    if out: return int(out.split()[0])
+    return -1
+
+def xinput_get_state(slot):
+    out = _xh_run('POLL', str(slot))
+    if out and out != 'DISCONNECTED':
+        parts = out.split()
+        if len(parts) >= 9:
+            return {
+                'dwPacketNumber': int(parts[1]),
+                'wButtons': int(parts[2]),
+                'bLeftTrigger': int(parts[3]),
+                'bRightTrigger': int(parts[4]),
+                'sThumbLX': int(parts[5]),
+                'sThumbLY': int(parts[6]),
+                'sThumbRX': int(parts[7]),
+                'sThumbRY': int(parts[8]),
+            }
+    return None
 
 BTN_NAMES = {
     0x1000: 'A', 0x2000: 'B', 0x0100: 'LB', 0x0010: 'Start',
@@ -108,25 +127,19 @@ def release_all():
     do_wasd(0, 0)
     if lt_pressed: lt_pressed = False; pydirectinput.keyUp(L2_KEY)
 
-def get_connected_slot():
-    state = XINPUT_STATE()
-    for slot in range(4):
-        r = xinput.XInputGetState(slot, ctypes.byref(state))
-        if r == 0:
-            return slot
-    return -1
 
-def print_status(g):
+
+def print_status(s):
     active = []
     for mask, name in BTN_NAMES.items():
-        if g.wButtons & mask:
+        if s['wButtons'] & mask:
             key = MAP.get(mask)
             if key: active.append(f'{name}->{key}')
     
-    lt = g.bLeftTrigger
+    lt = s['bLeftTrigger']
     if lt > TRIGGER_THRESHOLD: active.append(f'L2->{L2_KEY}({lt})')
     
-    lx, ly = g.sThumbLX, g.sThumbLY
+    lx, ly = s['sThumbLX'], s['sThumbLY']
     lx_norm = lx if abs(lx) > DZ else 0
     ly_norm = ly if abs(ly) > DZ else 0
     wasd_active = []
@@ -165,10 +178,9 @@ def main():
     
     try:
         while True:
-            s = XINPUT_STATE()
-            r = xinput.XInputGetState(slot, ctypes.byref(s))
+            s = xinput_get_state(slot)
             
-            if r != 0:
+            if not s:
                 if reconnect_count == 0:
                     sys.stdout.write('\r  [DECONNECTE - reconnexion...]' + ' ' * 40)
                     sys.stdout.flush()
@@ -184,19 +196,18 @@ def main():
                 continue
             
             reconnect_count = 0
-            g = s.Gamepad
             
-            ch = g.wButtons ^ last_btn
+            ch = s['wButtons'] ^ last_btn
             if ch:
                 for bit in range(16):
                     m = 1 << bit
-                    if ch & m: btn_change(m, bool(g.wButtons & m))
-                last_btn = g.wButtons
+                    if ch & m: btn_change(m, bool(s['wButtons'] & m))
+                last_btn = s['wButtons']
             
-            do_wasd(g.sThumbLX, g.sThumbLY)
-            do_triggers(g.bLeftTrigger, g.bRightTrigger)
+            do_wasd(s['sThumbLX'], s['sThumbLY'])
+            do_triggers(s['bLeftTrigger'], s['bRightTrigger'])
             
-            print_status(g)
+            print_status(s)
             time.sleep(0.004)
     except KeyboardInterrupt:
         pass

@@ -1,4 +1,4 @@
-# NavCon Pack v3.5.0
+# NavCon Pack v3.6.0
 
 ## Navigation Controller → Clavier pour PC
 
@@ -91,12 +91,9 @@ Steam Input intercepte automatiquement les contrôleurs XInput (le contrôleur X
 
 HidHide masque le contrôleur virtuel de Steam tout en permettant à `nav2keys.py` d'y accéder.
 
-1. Télécharger HidHide : https://github.com/nefarius/HidHide/releases
-2. Installer et redémarrer le PC
-3. Ouvrir HidHide Configuration Client :
-   - **Applications** : Ajouter `python.exe` à la whitelist
-   - **Devices** : Cocher le contrôleur Xbox 360 virtuel + "Enable device hiding"
-4. Vérifier avec `joy.cpl` — le contrôleur ne doit plus apparaître
+Depuis v3.6.0, la configuration est **automatique** :
+- `INSTALL.bat` (étape 5) détecte/installe/configure HidHide
+- `launch_nav2keys.bat` configure HidHide à chaque lancement
 
 Voir `MANUEL.txt` section "SOLUTION RECOMMANDEE : HidHide" pour le guide complet.
 

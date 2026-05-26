@@ -1,5 +1,5 @@
 ================================================================
-  NavCon Pack v3.5.0 - Navigation Controller -> Clavier
+  NavCon Pack v3.6.0 - Navigation Controller -> Clavier
   Pack complet déployable
 ================================================================
 
@@ -36,7 +36,8 @@ INSTALLATION (une seule fois)
 5. Redémarrer le PC
 
 OPTIONNEL — Pour les jeux Steam (recommandé) :
-6. Installer HidHide (voir section "SOLUTION RECOMMANDEE : HidHide")
+6. Installer HidHide (via INSTALL.bat étape 5, ou manuellement)
+   — launch_nav2keys.bat configure automatiquement HidHide au lancement
 
 UTILISATION QUOTIDIENNE
 -----------------------
@@ -183,45 +184,50 @@ Nefarius (le même auteur que ScpToolkit). Il permet de masquer
 le contrôleur Xbox 360 virtuel de Steam tout en permettant à
 nav2keys.py d'y accéder.
 
-ETAPE 1 — Installer HidHide :
-  1. Télécharger la dernière version depuis :
-     https://github.com/nefarius/HidHide/releases
-     (fichier HidHide_xxx_x64.exe)
+CONFIGURATION AUTOMATIQUE (recommandé)
+---------------------------------------
+Depuis v3.6.0, deux scripts gèrent HidHide automatiquement :
+
+  - INSTALL.bat (étape 5) : Détecte si HidHide est installé.
+    Si oui, configure python.exe en whitelist et active le masquage.
+    Si non, propose de télécharger et d'installer HidHide.
+
+  - launch_nav2keys.bat : Au lancement, détecte HidHide et
+    configure automatiquement la whitelist + le masquage.
+    Pas de manipulation manuelle nécessaire.
+
+Aucune configuration manuelle n'est requise si vous utilisez
+ces scripts. Lancez simplement INSTALL.bat une fois, puis
+launch_nav2keys.bat à chaque utilisation.
+
+INSTALLATION MANUELLE (si besoin)
+----------------------------------
+  1. Télécharger depuis https://github.com/nefarius/HidHide/releases
   2. Lancer l'installateur et suivre les étapes
   3. REDÉMARRER le PC (obligatoire après installation)
+  4. Relancer INSTALL.bat pour la configuration automatique
 
-ETAPE 2 — Configurer HidHide :
+CONFIGURATION MANUELLE (via l'interface graphique)
+--------------------------------------------------
   1. Ouvrir "HidHide Configuration Client" depuis le menu Démarrer
   2. Onglet "Applications" :
      a. Cliquer sur le bouton "+"
      b. Naviguer vers votre python.exe (ex: C:\Python314\python.exe)
-        ou le chemin où Python est installé
      c. Cliquer sur "Ouvrir" pour l'ajouter à la whitelist
-     d. Répéter pour chaque exécutable qui DOIT voir le contrôleur
-        (ex: votre launcher de jeu si besoin)
   3. Onglet "Devices" :
-     a. Connecter le Navigation Controller
-     b. Cocher la case à côté du contrôleur Xbox 360 virtuel
-        (il apparaît comme "Xbox 360 Controller" ou "ScpVBus")
-        -> Un cadenas rouge doit apparaître
-     c. Cocher "Enable device hiding" en bas de la fenêtre
+     a. Cocher "Enable device hiding" en bas de la fenêtre
   4. Fermer HidHide Configuration Client
 
-ETAPE 3 — Vérifier que ça fonctionne :
-  1. Appuyer sur Win+R, taper "joy.cpl" et valider
-  2. Le contrôleur Xbox 360 NE DOIT PAS apparaître dans la liste
-     (s'il n'y a pas d'autre manette connectée)
-  3. Si le contrôleur n'apparaît pas : HidHide fonctionne !
-  4. Lancer launch_nav2keys.bat — il doit détecter le controller
-     normalement (python.exe est dans la whitelist)
-  5. Lancer un jeu Steam — le jeu ne voit plus la manette,
-     uniquement les touches clavier envoyées par nav2keys.py
+VÉRIFICATION
+------------
+  1. Win+R, taper "joy.cpl" et valider
+  2. Le contrôleur Xbox 360 ne doit PAS apparaître
+  3. Lancer launch_nav2keys.bat — il doit détecter le controller
+  4. Lancer un jeu Steam — le jeu ne voit plus la manette
 
 NOTES IMPORTANTES :
-  - HidHide whitelist les applications par CHEMIN COMPLET
-    Si vous déplacez Python, il faut le re-whitelister
-  - Si le contrôleur change de méthode de connexion (USB <-> BT),
-    il faut cocher la nouvelle entrée dans l'onglet Devices
+  - La whitelist se base sur le CHEMIN COMPLET de python.exe
+    Si vous déplacez Python, relancez INSTALL.bat ou launch_nav2keys.bat
   - Pour désactiver HidHide temporairement : décocher
     "Enable device hiding" dans l'onglet Devices
   - Steam.exe ne doit PAS être dans la whitelist
@@ -246,9 +252,9 @@ CONTENU DU PACK
   │   ├── INSTALL.bat            Installation complete (admin)
   │   └── README_INSTALL.txt     Instructions d'installation
   └── 02-USAGE/
-      ├── launch_nav2keys.bat    Lancement quotidien
-      ├── configurator.bat       Interface de configuration GUI
-      ├── nav2keys.py            Script de mapping v3.5.0
+       ├── launch_nav2keys.bat    Lancement quotidien + auto-config HidHide
+       ├── configurator.bat       Interface de configuration GUI
+       ├── nav2keys.py            Script de mapping v3.6.0
       ├── configurator.py        Interface GUI (Tkinter)
       ├── config.json            Configuration utilisateur
       └── presets/               Profils preconfigures
