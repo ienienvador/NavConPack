@@ -70,6 +70,7 @@ class NavConConfigurator:
         self.config = self.load_config()
         self.test_running = False
         self.test_thread = None
+        self.stick_vars = {}
         
         self.xinput = ctypes.windll.xinput1_4
         if not self.xinput:
@@ -194,14 +195,14 @@ class NavConConfigurator:
         row.pack(fill=tk.X, pady=5)
         ttk.Label(row, text="L2 (Trigger gauche)", width=22, anchor=tk.W).pack(side=tk.LEFT)
         
-        var = tk.StringVar(value=self.config["triggers"].get("L2", ""))
-        combo = ttk.Combobox(row, textvariable=var, values=KEY_OPTIONS, width=12, state="readonly")
+        self.l2_var = tk.StringVar(value=self.config["triggers"].get("L2", ""))
+        combo = ttk.Combobox(row, textvariable=self.l2_var, values=KEY_OPTIONS, width=12, state="readonly")
         combo.pack(side=tk.LEFT, padx=5)
         
-        def on_change(v=var):
-            self.config["triggers"]["L2"] = v.get()
-        var.trace_add("write", lambda *args: on_change())
-    
+        def on_change(*args):
+            self.config["triggers"]["L2"] = self.l2_var.get()
+        self.l2_var.trace_add("write", on_change)
+
     def build_stick_tab(self, notebook):
         frame = ttk.Frame(notebook, padding=10)
         notebook.add(frame, text="Stick Analogique")
@@ -234,6 +235,7 @@ class NavConConfigurator:
             ttk.Label(row, text=label, width=18, anchor=tk.W).pack(side=tk.LEFT)
             
             var = tk.StringVar(value=self.config["stick"].get(dir_key, ""))
+            self.stick_vars[dir_key] = var
             combo = ttk.Combobox(row, textvariable=var, values=KEY_OPTIONS, width=12, state="readonly")
             combo.pack(side=tk.LEFT, padx=5)
             
@@ -387,6 +389,11 @@ class NavConConfigurator:
             for key, var in self.config["_combos"].items():
                 val = self.config["mapping"].get(key, "")
                 var.set(val)
+        self.thresh_var.set(self.config["triggers"]["threshold"])
+        self.dz_var.set(self.config["stick"]["deadzone"])
+        self.l2_var.set(self.config["triggers"]["L2"])
+        for dir_key, var in self.stick_vars.items():
+            var.set(self.config["stick"][dir_key])
     
     def build_action_bar(self, parent):
         bar = ttk.Frame(parent)

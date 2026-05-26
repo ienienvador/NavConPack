@@ -52,5 +52,24 @@ echo.
 echo ============================================================
 echo.
 
-python nav2keys.py
+REM === Sélection du preset ===
+set PRESET_ARG=
+echo Presets disponibles :
+echo.
+for %%f in ("%~dp0presets\*.json") do (
+    echo   %%~nf
+)
+echo.
+set /p CHOICE="Nom du preset (ou Entree pour le config actuel) : "
+echo.
+
+if defined CHOICE (
+    echo [Preset] Lancement avec le preset : %CHOICE%
+    echo.
+    python nav2keys.py "%CHOICE%"
+) else (
+    echo [Preset] Utilisation de config.json actuel
+    echo.
+    python nav2keys.py
+)
 pause

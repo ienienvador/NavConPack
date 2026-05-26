@@ -1,10 +1,12 @@
-import time, sys, json, os, subprocess
+import time, sys, json, os, subprocess, glob
 import pydirectinput
 
 pydirectinput.FAILSAFE = False
 
 # ── Configuration ──────────────────────────────────────────────────
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
+BASE_DIR = os.path.dirname(__file__)
+CONFIG_PATH = os.path.join(BASE_DIR, 'config.json')
+PRESETS_DIR = os.path.join(BASE_DIR, 'presets')
 
 DEFAULT_CONFIG = {
     "mapping": {
@@ -15,6 +17,20 @@ DEFAULT_CONFIG = {
     "triggers": {"threshold": 80, "L2": "x"},
     "stick": {"deadzone": 7849, "up": "w", "down": "s", "left": "a", "right": "d"}
 }
+
+def apply_preset(name):
+    p = os.path.join(PRESETS_DIR, name + '.json')
+    if not os.path.exists(p):
+        print(f"Preset '{name}' introuvable.", flush=True)
+        sys.exit(1)
+    with open(p) as f:
+        preset = json.load(f)
+    with open(CONFIG_PATH, 'w') as f:
+        json.dump(preset, f, indent=2)
+    print(f"Preset '{preset.get('name', name)}' charge dans config.json.", flush=True)
+
+if len(sys.argv) > 1 and not sys.argv[1].startswith('-'):
+    apply_preset(sys.argv[1])
 
 def load_config():
     if os.path.exists(CONFIG_PATH):
