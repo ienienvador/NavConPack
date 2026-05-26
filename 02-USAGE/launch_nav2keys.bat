@@ -52,23 +52,41 @@ echo.
 echo ============================================================
 echo.
 
-REM === Sélection du preset ===
-set PRESET_ARG=
-echo Presets disponibles :
-echo.
+REM === Menu de sélection du preset ===
+set PRESET_COUNT=0
 for %%f in ("%~dp0presets\*.json") do (
-    echo   %%~nf
+    set /a PRESET_COUNT+=1
+    set "PRESET_!PRESET_COUNT!=%%~nf"
 )
-echo.
-set /p CHOICE="Nom du preset (ou Entree pour le config actuel) : "
-echo.
 
-if defined CHOICE (
-    echo [Preset] Lancement avec le preset : %CHOICE%
+if !PRESET_COUNT! gtr 0 (
+    echo Presets disponibles :
     echo.
-    python nav2keys.py "%CHOICE%"
+    for /l %%i in (1,1,!PRESET_COUNT!) do (
+        echo   %%i. !PRESET_%%i!
+    )
+    echo.
+    set CHOICE=
+    set /p CHOICE="Choisissez un numero (1-!PRESET_COUNT!) ou Entree pour le config actuel : "
+    echo.
+    if defined CHOICE (
+        for %%i in (!CHOICE!) do set "PRESET_NAME=!PRESET_%%i!"
+        if defined PRESET_NAME (
+            echo [Preset] Lancement avec le preset : !PRESET_NAME!
+            echo.
+            python nav2keys.py "!PRESET_NAME!"
+        ) else (
+            echo [Preset] Choix invalide. Utilisation de config.json actuel.
+            echo.
+            python nav2keys.py
+        )
+    ) else (
+        echo [Preset] Utilisation de config.json actuel
+        echo.
+        python nav2keys.py
+    )
 ) else (
-    echo [Preset] Utilisation de config.json actuel
+    echo [Preset] Aucun preset trouve. Utilisation de config.json actuel.
     echo.
     python nav2keys.py
 )
